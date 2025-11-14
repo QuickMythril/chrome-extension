@@ -3434,6 +3434,7 @@ async function setGroupData({
   secretKeyData,
   secretKeyResource,
   admins,
+  secretKeyObject,
 }) {
   const wallet = await getSaveWallet();
   const address = wallet.address0;
@@ -3445,7 +3446,7 @@ async function setGroupData({
     secretKeyResource,
   };
   const dataString = JSON.stringify(data);
-  return await new Promise((resolve, reject) => {
+  await new Promise((resolve, reject) => {
     chrome.storage.local.set({ [`group-data-${address}`]: dataString }, () => {
       if (chrome.runtime.lastError) {
         reject(new Error(chrome.runtime.lastError.message));
@@ -3454,6 +3455,32 @@ async function setGroupData({
       }
     });
   });
+
+  try {
+    const cacheKey =
+      secretKeyResource?.identifier &&
+      secretKeyResource.identifier.includes('admins-symmetric-qchat-group-')
+        ? `admins-${groupId}`
+        : groupId;
+    let parsedSecretKey = secretKeyObject;
+    if (!parsedSecretKey && secretKeyData) {
+      const decryptedKey: any = await decryptGroupEncryption({
+        data: secretKeyData,
+      });
+      const dataint8Array = base64ToUint8Array(decryptedKey.data);
+      parsedSecretKey = uint8ArrayToObject(dataint8Array);
+    }
+    if (parsedSecretKey && cacheKey) {
+      groupSecretkeys[cacheKey] = {
+        secretKeyObject: parsedSecretKey,
+        timestamp: Date.now(),
+      };
+    }
+  } catch (error) {
+    console.error('Error syncing cached group secret key', error);
+  }
+
+  return true;
 }
 
 async function addTimestampEnterChat({ groupId, timestamp }) {

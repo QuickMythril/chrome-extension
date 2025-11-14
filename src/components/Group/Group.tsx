@@ -900,6 +900,7 @@ export const Group = ({
           secretKeyData: data,
           secretKeyResource: publish,
           admins: { names, addresses, both },
+          secretKeyObject: decryptedKeyToObject,
         },
       });
       if (decryptedKeyToObject) {
