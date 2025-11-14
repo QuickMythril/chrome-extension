@@ -6,3 +6,6 @@ The Qortal Extension opens the door for 'legacy web applications' to be able to 
 
 Much more information will be coming soon, and existing details and assistance can be found on https://qortal.dev 
 
+## Development
+
+Developers who want to run the extension from source or contribute fixes can follow the steps in [docs/development.md](./docs/development.md).
