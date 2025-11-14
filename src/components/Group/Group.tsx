@@ -11,6 +11,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import React, {
   useCallback,
   useContext,
@@ -104,6 +105,7 @@ import { DesktopSideBar } from "../DesktopSideBar";
 import { AvatarPreviewModal } from "../Chat/AvatarPreviewModal";
 import { useImagePreload } from "../../hooks/useImagePreload";
 import { getGroupAvatarUrl, getUserAvatarUrl } from "../../utils/avatar";
+import { getClickableAvatarSx } from "../Chat/clickableAvatarStyles";
 
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 
@@ -3188,6 +3190,7 @@ const ClickableListAvatar = ({
   size = 40,
 }: ClickableListAvatarProps) => {
   const { loadedSrc } = useImagePreload(imageUrl);
+  const theme = useTheme();
   const isInteractive = Boolean(loadedSrc && onLoadedClick);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -3202,9 +3205,9 @@ const ClickableListAvatar = ({
       sx={{
         background: "#232428",
         color: "white",
-        cursor: isInteractive ? "pointer" : "default",
         height: `${size}px`,
         width: `${size}px`,
+        ...getClickableAvatarSx(theme, isInteractive),
       }}
       alt={alt}
       src={loadedSrc || undefined}

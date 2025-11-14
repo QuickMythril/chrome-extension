@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from "re
 import { useInView } from "react-intersection-observer";
 import { MessageDisplay } from "./MessageDisplay";
 import { Avatar, Box, Button, ButtonBase, List, ListItem, ListItemText, Popover, Tooltip, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { formatTimestamp } from "../../utils/time";
 import { MyContext } from "../../App";
 import { generateHTML } from "@tiptap/react";
@@ -37,6 +38,7 @@ import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import { AvatarPreviewModal } from "./AvatarPreviewModal";
 import { useImagePreload } from "../../hooks/useImagePreload";
 import { getUserAvatarUrl } from "../../utils/avatar";
+import { getClickableAvatarSx } from "./clickableAvatarStyles";
 
 const getBadgeImg = (level)=> {
   switch(level?.toString()){
@@ -82,6 +84,7 @@ const {getIndividualUserInfo} = useContext(MyContext)
   const [userInfo, setUserInfo] = useState(null)
   const [avatarPreviewSrc, setAvatarPreviewSrc] = useState<string | null>(null)
   const [isAvatarPreviewOpen, setIsAvatarPreviewOpen] = useState(false)
+  const theme = useTheme();
 
 
 useEffect(()=> {
@@ -229,7 +232,7 @@ const hasNoMessage =
               color: "white",
               height: '40px',
               width: '40px',
-              cursor: isAvatarLoaded ? 'pointer' : 'default'
+              ...getClickableAvatarSx(theme, isAvatarLoaded)
             }}
             alt={message?.senderName}
             src={loadedAvatarSrc || undefined}
