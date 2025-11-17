@@ -18,7 +18,7 @@ import { InviteMember } from "./InviteMember";
 import { ListOfInvites } from "./ListOfInvites";
 import { ListOfBans } from "./ListOfBans";
 import { ListOfJoinRequests } from "./ListOfJoinRequests";
-import { Box, FormControlLabel, Switch, ToggleButton, ToggleButtonGroup, styled } from "@mui/material";
+import { Box, FormControlLabel, Switch, styled } from "@mui/material";
 import { CustomizedSnackbars } from "../Snackbar/Snackbar";
 import { MyContext, isMobile } from "../../App";
 import { getGroupMembers, getNames } from "./Group";
@@ -27,6 +27,7 @@ import { getFee } from "../../background";
 import { LoadingButton } from "@mui/lab";
 import { executeEvent, subscribeToEvent, unsubscribeFromEvent } from "../../utils/events";
 import { useThemeContext } from "../../context/ThemeContext";
+import ThemeManagerDialog from "../Theme/ThemeManager";
 
 function a11yProps(index: number) {
   return {
@@ -84,7 +85,8 @@ export const Settings = ({
 }) => {
   const [checked, setChecked] = React.useState(false);
   const [generalChatEnabled, setGeneralChatEnabled] = useState(true);
-  const { themeMode, setThemeMode } = useThemeContext();
+  const { themeMode } = useThemeContext();
+  const [isThemeManagerOpen, setThemeManagerOpen] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -260,26 +262,30 @@ export const Settings = ({
             >
               Appearance
             </Typography>
-            <ToggleButtonGroup
-              color="primary"
-              value={themeMode}
-              exclusive
-              size="small"
-              onChange={(_, value) => {
-                if (value) {
-                  setThemeMode(value);
-                }
-              }}
+            <Typography
+              variant="body2"
+              sx={{ color: "text.secondary", mb: 2 }}
             >
-              <ToggleButton value="light">Light</ToggleButton>
-              <ToggleButton value="dark">Dark</ToggleButton>
-            </ToggleButtonGroup>
+              Active mode: {themeMode === "dark" ? "Dark" : "Light"}. Use the
+              sidebar toggle for quick changes or open the Theme Manager to
+              customize palettes.
+            </Typography>
+            <Button
+              variant="outlined"
+              onClick={() => setThemeManagerOpen(true)}
+            >
+              Open Theme Manager
+            </Button>
           </Box>
 
         </Box>
 
       </Dialog>
 
+      <ThemeManagerDialog
+        open={isThemeManagerOpen}
+        onClose={() => setThemeManagerOpen(false)}
+      />
     </React.Fragment>
   );
 };

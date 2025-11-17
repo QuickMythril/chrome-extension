@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Divider, useTheme } from '@mui/material';
+import { Box, ButtonBase, IconButton, useTheme } from '@mui/material';
 import React from 'react';
 import { HomeIcon } from '../assets/Icons/HomeIcon';
 import { MessagingIcon } from '../assets/Icons/MessagingIcon';
@@ -137,42 +137,30 @@ export const DesktopSideBar = ({
       </Box>
       <Box
         sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
           marginTop: 'auto',
-          gap: '12px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          paddingBottom: '10px',
         }}
       >
-        <Divider
-          orientation="horizontal"
-          flexItem
-          sx={{ borderColor: muiTheme.palette.divider, width: '60%' }}
-        />
-        <ButtonBase
+        <IconButton
           onClick={toggleTheme}
           sx={{
-            width: '42px',
-            height: '42px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: muiTheme.palette.background.paper,
-            border: `1px solid ${muiTheme.palette.divider}`,
             color: muiTheme.palette.text.primary,
+            backgroundColor: muiTheme.palette.background.default,
             '&:hover': {
               backgroundColor: muiTheme.palette.action.hover,
             },
           }}
         >
           {isDarkMode ? (
-            <LightModeIcon fontSize="small" sx={{ color: muiTheme.palette.text.primary }} />
+            <LightModeIcon fontSize="small" />
           ) : (
-            <DarkModeIcon fontSize="small" sx={{ color: muiTheme.palette.text.primary }} />
+            <DarkModeIcon fontSize="small" />
           )}
-        </ButtonBase>
+        </IconButton>
       </Box>
     </Box>
   );

@@ -518,6 +518,7 @@ export const Group = ({
   const [groupsOwnerNames, setGroupsOwnerNames] = useState<Record<string, string>>({})
   const groupsOwnerNamesRef = useRef<Record<string, string>>({})
   const setUserInfoForLevels = useSetRecoilState(addressInfoControllerAtom);
+  const theme = useTheme();
   const [avatarPreview, setAvatarPreview] = useState<{ alt: string; src: string | null }>({
     alt: "",
     src: null
