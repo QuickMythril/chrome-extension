@@ -18,7 +18,7 @@ import { InviteMember } from "./InviteMember";
 import { ListOfInvites } from "./ListOfInvites";
 import { ListOfBans } from "./ListOfBans";
 import { ListOfJoinRequests } from "./ListOfJoinRequests";
-import { Box, FormControlLabel, Switch, Tab, Tabs, styled } from "@mui/material";
+import { Box, FormControlLabel, Switch, ToggleButton, ToggleButtonGroup, styled } from "@mui/material";
 import { CustomizedSnackbars } from "../Snackbar/Snackbar";
 import { MyContext, isMobile } from "../../App";
 import { getGroupMembers, getNames } from "./Group";
@@ -26,6 +26,7 @@ import { LoadingSnackbar } from "../Snackbar/LoadingSnackbar";
 import { getFee } from "../../background";
 import { LoadingButton } from "@mui/lab";
 import { executeEvent, subscribeToEvent, unsubscribeFromEvent } from "../../utils/events";
+import { useThemeContext } from "../../context/ThemeContext";
 
 function a11yProps(index: number) {
   return {
@@ -83,6 +84,7 @@ export const Settings = ({
 }) => {
   const [checked, setChecked] = React.useState(false);
   const [generalChatEnabled, setGeneralChatEnabled] = useState(true);
+  const { themeMode, setThemeMode } = useThemeContext();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -201,7 +203,7 @@ export const Settings = ({
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative", bgcolor: "#232428" }}>
+        <AppBar sx={{ position: "relative", bgcolor: "background.paper", color: "text.primary" }} elevation={0}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               General Settings
@@ -218,17 +220,20 @@ export const Settings = ({
         </AppBar>
         <Box
           sx={{
-            bgcolor: "#27282c",
+            bgcolor: "background.default",
             flexGrow: 1,
             overflowY: "auto",
-            color: "white",
-            padding: '20px'
+            color: "text.primary",
+            padding: '20px',
+            display: "flex",
+            flexDirection: "column",
+            gap: 3
           }}
         >
 
           <FormControlLabel
             sx={{
-              color: 'white'
+              color: 'text.primary'
             }}
             control={<LocalNodeSwitch checked={checked}
               onChange={handleChange} />}
@@ -237,7 +242,7 @@ export const Settings = ({
 
           <FormControlLabel
             sx={{
-              color: 'white',
+              color: 'text.primary',
             }}
             control={
               <LocalNodeSwitch
@@ -247,6 +252,29 @@ export const Settings = ({
             }
             label="General chat"
           />
+
+          <Box>
+            <Typography
+              variant="subtitle2"
+              sx={{ fontWeight: 600, color: "text.secondary", mb: 1 }}
+            >
+              Appearance
+            </Typography>
+            <ToggleButtonGroup
+              color="primary"
+              value={themeMode}
+              exclusive
+              size="small"
+              onChange={(_, value) => {
+                if (value) {
+                  setThemeMode(value);
+                }
+              }}
+            >
+              <ToggleButton value="light">Light</ToggleButton>
+              <ToggleButton value="dark">Dark</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
 
         </Box>
 

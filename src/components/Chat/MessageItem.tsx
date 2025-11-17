@@ -198,7 +198,7 @@ const hasNoMessage =
     <div
       style={{
         padding: "10px",
-        backgroundColor: "#232428",
+        backgroundColor: theme.palette.background.paper,
         borderRadius: "7px",
         width: "95%",
         display: "flex",
@@ -228,8 +228,8 @@ const hasNoMessage =
           
           <Avatar
             sx={{
-              backgroundColor: "#27282c",
-              color: "white",
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
               height: '40px',
               width: '40px',
               ...getClickableAvatarSx(theme, isAvatarLoaded)
@@ -280,7 +280,7 @@ const hasNoMessage =
               sx={{
                 fontWight: 600,
                 fontFamily: "Inter",
-                color: "cadetBlue",
+                color: theme.palette.primary.main,
               }}
             >
               {message?.senderName || message?.sender}
@@ -330,7 +330,7 @@ const hasNoMessage =
             sx={{
               width: "100%",
               borderRadius: "5px",
-              backgroundColor: "var(--bg-primary)",
+              backgroundColor: theme.palette.background.default,
               overflow: 'hidden',
               display: 'flex',
               gap: '20px',
@@ -346,7 +346,7 @@ const hasNoMessage =
             <Box sx={{
               height: '100%',
               width: '5px',
-              background: 'white'
+              background: theme.palette.primary.main
             }} />
             <Box sx={{
               padding: '5px'
@@ -377,7 +377,7 @@ const hasNoMessage =
               sx={{
                 width: '100%',
                 borderRadius: '5px',
-                backgroundColor: 'var(--bg-primary)',
+                backgroundColor: theme.palette.background.default,
                 overflow: 'hidden',
                 display: 'flex',
                 gap: '20px',
@@ -389,7 +389,7 @@ const hasNoMessage =
               sx={{
                 height: '100%',
                 width: '5px',
-                background: 'white',
+                background: theme.palette.primary.main,
               }}
             />
             <Box sx={{ padding: '5px' }}>
@@ -430,10 +430,10 @@ const hasNoMessage =
                   }}
                 >
                   <CommentsDisabledIcon sx={{
-                    color: 'white'
+                    color: theme.palette.text.secondary
                   }} />
                   <Typography sx={{
-                    color: 'white'
+                    color: theme.palette.text.secondary
                   }}>
                     No message
                   </Typography>
@@ -498,8 +498,8 @@ const hasNoMessage =
               }}
               PaperProps={{
                 style: {
-                  backgroundColor: "#232428",
-                  color: "white",
+                  backgroundColor: theme.palette.background.paper,
+                  color: theme.palette.text.primary,
                 },
               }}
             >
@@ -554,7 +554,7 @@ const hasNoMessage =
           }}>
           {message?.isNotEncrypted && isPrivate && (
               <KeyOffIcon sx={{
-                color: 'white',
+                color: theme.palette.error.main,
                 marginLeft: '10px'
               }} />
             )}
@@ -639,7 +639,7 @@ export const ReplyPreview = ({message, isEdit})=> {
               marginTop: '20px',
               width: "100%",
               borderRadius: "5px",
-              backgroundColor: "var(--bg-primary)",
+              backgroundColor: "var(--background-default)",
               overflow: 'hidden',
               display: 'flex',
               gap: '20px',
@@ -650,7 +650,7 @@ export const ReplyPreview = ({message, isEdit})=> {
             <Box sx={{
               height: '100%',
               width: '5px',
-              background: 'white'
+              background: 'var(--primary-main)'
             }} />
             <Box sx={{
               padding: '5px'
