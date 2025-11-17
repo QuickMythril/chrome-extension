@@ -11,6 +11,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import React, {
   useCallback,
   useContext,
@@ -101,6 +102,10 @@ import { AdminSpace } from "../Chat/AdminSpace";
 import { HubsIcon } from "../../assets/Icons/HubsIcon";
 import { MessagingIcon } from "../../assets/Icons/MessagingIcon";
 import { DesktopSideBar } from "../DesktopSideBar";
+import { AvatarPreviewModal } from "../Chat/AvatarPreviewModal";
+import { useImagePreload } from "../../hooks/useImagePreload";
+import { getGroupAvatarUrl, getUserAvatarUrl } from "../../utils/avatar";
+import { getClickableAvatarSx } from "../Chat/clickableAvatarStyles";
 
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 
@@ -510,7 +515,28 @@ export const Group = ({
   const setSelectedGroupId = useSetRecoilState(selectedGroupIdAtom)
 
   const [groupsProperties, setGroupsProperties] = useRecoilState(groupsPropertiesAtom)
+  const [groupsOwnerNames, setGroupsOwnerNames] = useState<Record<string, string>>({})
+  const groupsOwnerNamesRef = useRef<Record<string, string>>({})
   const setUserInfoForLevels = useSetRecoilState(addressInfoControllerAtom);
+  const [avatarPreview, setAvatarPreview] = useState<{ alt: string; src: string | null }>({
+    alt: "",
+    src: null
+  })
+
+  const handleCloseAvatarPreview = useCallback(() => {
+    setAvatarPreview({
+      alt: "",
+      src: null
+    })
+  }, [])
+
+  const handleOpenAvatarPreview = useCallback((src: string, alt?: string) => {
+    if (!src) return
+    setAvatarPreview({
+      alt: alt || "",
+      src
+    })
+  }, [])
 
   const isPrivate = useMemo(()=> {
     if(selectedGroup?.groupId === '0') return false
@@ -536,9 +562,13 @@ export const Group = ({
     timestampEnterDataRef.current = timestampEnterData
   }, [timestampEnterData])
 
-   useEffect(() => {
+  useEffect(() => {
     groupsPropertiesRef.current = groupsProperties;
   }, [groupsProperties]);
+
+  useEffect(() => {
+    groupsOwnerNamesRef.current = groupsOwnerNames;
+  }, [groupsOwnerNames]);
 
   useEffect(() => {
     isFocusedRef.current = isFocused;
@@ -962,6 +992,27 @@ export const Group = ({
 
 
 
+  const getOwnerNameForGroup = useCallback(async(owner: string, groupId: string | number) => {
+    try {
+      if (!owner) return
+      if (groupId === undefined || groupId === null) return
+      const key = groupId.toString()
+      if (groupsOwnerNamesRef.current[key]) return
+      const name = await requestQueueMemberNames.enqueue(() => {
+        return getNameInfo(owner)
+      })
+      if (name) {
+        groupsOwnerNamesRef.current[key] = name
+        setGroupsOwnerNames((prev)=> ({
+          ...prev,
+          [key]: name
+        }))
+      }
+    } catch (error) {
+      //
+    }
+  }, [])
+
   const getGroupsProperties = useCallback(async(address)=> {
     try {
       const url = `${getBaseApiReact()}/groups/member/${address}`;
@@ -974,10 +1025,16 @@ export const Group = ({
       return result;
     }, {});
       setGroupsProperties(transformToObject)
+      Object.keys(transformToObject).forEach((key)=> {
+        const owner = transformToObject[key]?.owner
+        if(owner){
+          getOwnerNameForGroup(owner, key)
+        }
+      })
     } catch (error) {
       // error
     }
-  }, [])
+  }, [getOwnerNameForGroup])
 
 
   const getGroupsWhereIAmAMember = useCallback(async (groups) => {
@@ -1769,12 +1826,6 @@ export const Group = ({
     }
   };
 
-  const getUserAvatarUrl = useCallback((name?: string) => {
-    return name
-      ? `${getBaseApiReact()}/arbitrary/THUMBNAIL/${name}/qortal_avatar?async=true`
-      : '';
-  }, []);
-
   const renderDirects = () => {
     return (
       <div
@@ -1909,8 +1960,11 @@ export const Group = ({
             // left: chatMode === "groups" && "-1000px",
           }}
         >
-          {directs.map((direct: any) => (
+        {directs.map((direct: any) => {
+          const displayName = direct?.name || direct?.address;
+          return (
             <List
+              key={direct?.address || direct?.name || direct?.timestamp}
               sx={{
                 width: "100%",
               }}
@@ -1918,15 +1972,9 @@ export const Group = ({
               dense={true}
             >
               <ListItem
-                //   secondaryAction={
-                //     <IconButton edge="end" aria-label="delete">
-                //       <SettingsIcon />
-                //     </IconButton>
-                //   }
                 onClick={() => {
                   setSelectedDirect(null);
                   setNewChat(false);
-                  // setSelectedGroup(null);
                   setIsOpenDrawer(false);
                   chrome?.runtime?.sendMessage({
                     action: "addTimestampEnterChat",
@@ -1937,7 +1985,6 @@ export const Group = ({
                   });
                   setTimeout(() => {
                     setSelectedDirect(direct);
-
                     getTimestampEnterChat();
                   }, 200);
                 }}
@@ -1961,20 +2008,22 @@ export const Group = ({
                   }}
                 >
                   <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        background: "#232428",
-                        color: "white",
+                    <ClickableListAvatar
+                      alt={displayName}
+                      fallbackText={displayName?.charAt(0)?.toUpperCase() || "?"}
+                      imageUrl={getUserAvatarUrl(direct?.name)}
+                      onLoadedClick={(src) => {
+                        handleOpenAvatarPreview(src, displayName);
                       }}
-                      alt={direct?.name || direct?.address}
-                      src={getUserAvatarUrl(direct?.name)}
-                    >
-                      {(direct?.name || direct?.address)?.charAt(0)}
-                    </Avatar>
+                    />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={direct?.name || direct?.address}
-                    secondary={!direct?.timestamp ? 'no messages' :`last message: ${formatEmailDate(direct?.timestamp)}`}
+                    primary={displayName}
+                    secondary={
+                      !direct?.timestamp
+                        ? "no messages"
+                        : `last message: ${formatEmailDate(direct?.timestamp)}`
+                    }
                     primaryTypographyProps={{
                       style: {
                         color:
@@ -1983,13 +2032,13 @@ export const Group = ({
                         textWrap: "wrap",
                         overflow: "hidden",
                       },
-                    }} // Change the color of the primary text
+                    }}
                     secondaryTypographyProps={{
                       style: {
                         color:
                           direct?.address === selectedDirect?.address &&
                           "black",
-                          fontSize: '12px'
+                        fontSize: "12px",
                       },
                     }}
                     sx={{
@@ -2014,7 +2063,8 @@ export const Group = ({
                 </Box>
               </ListItem>
             </List>
-          ))}
+          );
+        })}
         </div>
         <div
           style={{
@@ -2209,8 +2259,14 @@ export const Group = ({
             left: chatMode === "directs" && "-1000px",
           }}
         >
-          {visibleGroups.map((group: any) => (
+          {visibleGroups.map((group: any) => {
+            const groupLabel = group.groupId === '0' ? 'General' : group.groupName;
+            const fallbackText =
+              groupLabel?.charAt(0)?.toUpperCase() || 'G';
+            const ownerName = groupsOwnerNames[group?.groupId];
+            return (
             <List
+              key={group?.groupId || group?.groupName}
               sx={{
                 width: "100%",
               }}
@@ -2254,36 +2310,52 @@ export const Group = ({
                     }}
                   >
                     <ListItemAvatar>
-                      {groupsProperties[group?.groupId]?.isOpen === false ? (
-                        <Box sx={{
+                      <Box
+                        sx={{
                           width: '40px',
                           height: '40px',
-                          borderRadius: '50%',
-                          background: "#232428",
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}>
-                        <LockIcon sx={{
-                          color: 'var(--green)'
-                        }} />
+                          position: 'relative',
+                        }}
+                      >
+                        <ClickableListAvatar
+                          alt={groupLabel}
+                          fallbackText={fallbackText}
+                          imageUrl={getGroupAvatarUrl(ownerName, group?.groupId)}
+                          onLoadedClick={(src) => {
+                            handleOpenAvatarPreview(src, groupLabel);
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            bottom: '-4px',
+                            right: '-4px',
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '50%',
+                            background: '#1b1d21',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {groupsProperties[group?.groupId]?.isOpen === false ? (
+                            <LockIcon
+                              sx={{
+                                color: 'var(--green)',
+                                fontSize: '16px',
+                              }}
+                            />
+                          ) : (
+                            <NoEncryptionGmailerrorredIcon
+                              sx={{
+                                color: 'var(--danger)',
+                                fontSize: '16px',
+                              }}
+                            />
+                          )}
                         </Box>
-                      ): (
-                        <Box sx={{
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '50%',
-                          background: "#232428",
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}>
-                        <NoEncryptionGmailerrorredIcon sx={{
-                          color: 'var(--danger)'
-                        }} />
-                        </Box>
-                      )}
-                      
+                      </Box>
                     </ListItemAvatar>
                     <ListItemText
                        primary={group.groupId === '0' ? 'General' : group.groupName}
@@ -2337,7 +2409,7 @@ export const Group = ({
                 </ContextMenu>
               </ListItem>
             </List>
-          ))}
+          )})}
         </div>
         <div
           style={{
@@ -3087,11 +3159,61 @@ export const Group = ({
           )}
         </>
       )}
-       {(isMobile &&  mobileViewMode === "apps" && appsMode !== 'home') &&  !mobileViewModeKeepOpen && (
+      {(isMobile &&  mobileViewMode === "apps" && appsMode !== 'home') &&  !mobileViewModeKeepOpen && (
         <>
           <AppsNavBar />
         </>
       )}
+      <AvatarPreviewModal
+        open={Boolean(avatarPreview.src)}
+        src={avatarPreview.src}
+        alt={avatarPreview.alt}
+        onClose={handleCloseAvatarPreview}
+      />
     </>
+  );
+};
+
+type ClickableListAvatarProps = {
+  alt?: string;
+  fallbackText?: string;
+  imageUrl?: string;
+  onLoadedClick?: (src: string) => void;
+  size?: number;
+};
+
+const ClickableListAvatar = ({
+  alt,
+  fallbackText,
+  imageUrl,
+  onLoadedClick,
+  size = 40,
+}: ClickableListAvatarProps) => {
+  const { loadedSrc } = useImagePreload(imageUrl);
+  const theme = useTheme();
+  const isInteractive = Boolean(loadedSrc && onLoadedClick);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (!isInteractive || !loadedSrc) return;
+    event.preventDefault();
+    event.stopPropagation();
+    onLoadedClick?.(loadedSrc);
+  };
+
+  return (
+    <Avatar
+      sx={{
+        background: "#232428",
+        color: "white",
+        height: `${size}px`,
+        width: `${size}px`,
+        ...getClickableAvatarSx(theme, isInteractive),
+      }}
+      alt={alt}
+      src={loadedSrc || undefined}
+      onClick={handleClick}
+    >
+      {fallbackText}
+    </Avatar>
   );
 };
