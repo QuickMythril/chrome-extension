@@ -123,7 +123,6 @@ import { NotAuthenticated } from "./ExtStates/NotAuthenticated";
 import { useFetchResources } from "./common/useFetchResources";
 import { Tutorials } from "./components/Tutorials/Tutorials";
 import { useHandleTutorials } from "./components/Tutorials/useHandleTutorials";
-import { CoreSyncStatus } from "./components/CoreSyncStatus";
 import BoundedNumericTextField from "./common/BoundedNumericTextField";
 import { Wallets } from "./Wallets";
 import './utils/seedPhrase/RandomSentenceGenerator';
@@ -1909,8 +1908,6 @@ function App() {
                 />
               </Tooltip>
             )} */}
-            <Spacer height="20px" />
-            <CoreSyncStatus />
             <Spacer height="20px" />
             <QMailStatus />
             <Spacer height="20px"/>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import syncedImg from '../assets/syncStatus/synced.png'
-import syncedMintingImg from '../assets/syncStatus/synced_minting.png'
-import syncingImg from '../assets/syncStatus/syncing.png'
+import syncedImg from '../assets/syncStatus/synced.webp';
+import syncedMintingImg from '../assets/syncStatus/synced_minting.webp';
+import syncingImg from '../assets/syncStatus/syncing.webp';
 import { getBaseApiReact } from '../App';
-import './CoreSyncStatus.css'
-export const CoreSyncStatus = ({imageSize, position}) => {
+import './CoreSyncStatus.css';
+export const CoreSyncStatus = ({ imageSize, position }) => {
   const [nodeInfos, setNodeInfos] = useState({});
   const [coreInfos, setCoreInfos] = useState({});
   const [isUsingGateway, setIsUsingGateway] = useState(false);
@@ -88,17 +88,19 @@ export const CoreSyncStatus = ({imageSize, position}) => {
     return (
       <div className="tooltip" style={{ display: 'inline' }}>
         <span><img src={imagePath} style={{ height: 'auto', width: imageSize ? imageSize : '24px' }} alt="sync status" /></span>
-        <div className="bottom" style={{
-          right: position && 'unset',
-          left: position && '0px'
-        }}>
+        <div
+          className="bottom"
+          style={{
+            right: position ? 'unset' : 0,
+            left: position ? '55px' : 'unset',
+          }}
+        >
           <h3>Core Information</h3>
           <h4 className="lineHeight">Core Version: <span style={{ color: '#03a9f4' }}>{buildVersion}</span></h4>
           <h4 className="lineHeight">{message}</h4>
           <h4 className="lineHeight">Block Height: <span style={{ color: '#03a9f4' }}>{height || ''}</span></h4>
           <h4 className="lineHeight">Connected Peers: <span style={{ color: '#03a9f4' }}>{numberOfConnections || ''}</span></h4>
           <h4 className="lineHeight">Using public node: <span style={{ color: '#03a9f4' }}>{isUsingGateway?.toString()}</span></h4>
-          <i></i>
         </div>
       </div>
     );
@@ -110,4 +112,3 @@ export const CoreSyncStatus = ({imageSize, position}) => {
     </div>
   );
 };
-
