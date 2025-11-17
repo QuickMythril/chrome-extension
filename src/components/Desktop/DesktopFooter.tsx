@@ -30,7 +30,7 @@ export const IconWrapper = ({ children, label, color, selected, disableWidth, cu
         height: customWidth ? customWidth : disableWidth ? 'auto' :  "89px",
         width: customWidth? customWidth : disableWidth ? 'auto' : "89px",
         borderRadius: "50%",
-        backgroundColor: selected ? "rgba(28, 29, 32, 1)" : "transparent",
+        backgroundColor: selected ? "var(--bg-2)" : "transparent",
       }}
     >
       {children}
@@ -109,13 +109,13 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Home"
             selected={isHome}
           >
             <HomeIcon
               height={30}
-              color={isHome ? "white" : "rgba(250, 250, 250, 0.5)"}
+              color={isHome ? "var(--text-contrast)" : "var(--text-contrast-muted)"}
             />
           </IconWrapper>
         </ButtonBase>
@@ -127,7 +127,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Apps"
             selected={isApps}
           >
@@ -140,7 +140,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Groups"
             selected={isGroups}
           >
@@ -150,8 +150,8 @@ export const DesktopFooter = ({
                 hasUnreadGroups
                   ? "var(--unread)"
                   : isGroups
-                  ? "white"
-                  : "rgba(250, 250, 250, 0.5)"
+                  ? "var(--text-contrast)"
+                  : "var(--text-contrast-muted)"
               }
             />
           </IconWrapper>
@@ -162,7 +162,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Messaging"
             selected={isDirects}
           >
@@ -172,8 +172,8 @@ export const DesktopFooter = ({
                 hasUnreadDirects
                   ? "var(--unread)"
                   : isDirects
-                  ? "white"
-                  : "rgba(250, 250, 250, 0.5)"
+                  ? "var(--text-contrast)"
+                  : "var(--text-contrast-muted)"
               }
             />
           </IconWrapper>

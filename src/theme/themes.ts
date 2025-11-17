@@ -23,10 +23,29 @@ export interface AppTheme {
   cssVars: Record<string, string>;
 }
 
+const MODE_SPECIFIC_VARS: Record<ThemeMode, Record<string, string>> = {
+  light: {
+    "--Mail-Background": "rgba(49, 51, 56, 1)",
+    "--bg-primary": "rgba(31, 32, 35, 1)",
+    "--bg-2": "rgba(39, 40, 44, 1)",
+    "--videoplayer-bg": "rgba(31, 32, 35, 1)",
+    "--text-contrast": "rgba(255, 255, 255, 0.92)",
+    "--text-contrast-muted": "rgba(255, 255, 255, 0.5)",
+  },
+  dark: {
+    "--Mail-Background": "rgba(6, 10, 30, 1)",
+    "--bg-primary": "rgba(6, 10, 30, 1)",
+    "--bg-2": "rgb(39, 40, 44)",
+    "--videoplayer-bg": "rgba(31, 32, 35, 1)",
+    "--text-contrast": "rgba(255, 255, 255, 0.92)",
+    "--text-contrast-muted": "rgba(255, 255, 255, 0.65)",
+  },
+};
+
 const createCssVars = (mode: ThemeMode, colors: AppTheme["colors"]) => ({
-  "--Mail-Background": colors.mailBackground,
-  "--bg-primary": colors.surface,
-  "--bg-2": colors.panel,
+  "--Mail-Background": MODE_SPECIFIC_VARS[mode]["--Mail-Background"],
+  "--bg-primary": MODE_SPECIFIC_VARS[mode]["--bg-primary"],
+  "--bg-2": MODE_SPECIFIC_VARS[mode]["--bg-2"],
   "--bg-3": mode === "light" ? "rgba(0, 0, 0, 0.06)" : "rgba(255, 255, 255, 0.08)",
   "--unread": colors.unread,
   "--danger": colors.error,
@@ -34,11 +53,13 @@ const createCssVars = (mode: ThemeMode, colors: AppTheme["colors"]) => ({
   "--green": colors.success,
   "--text-primary": colors.textPrimary,
   "--text-secondary": colors.textSecondary,
+  "--text-contrast": MODE_SPECIFIC_VARS[mode]["--text-contrast"],
+  "--text-contrast-muted": MODE_SPECIFIC_VARS[mode]["--text-contrast-muted"],
   "--primary-main": colors.primary,
   "--background-default": colors.background,
   "--background-paper": colors.panel,
   "--background-surface": colors.surface,
-  "--videoplayer-bg": colors.videoBackground,
+  "--videoplayer-bg": MODE_SPECIFIC_VARS[mode]["--videoplayer-bg"],
   "--new-message-text": colors.textPrimary,
   "--color-instance": colors.surface,
   "--color-instance-popover-bg": colors.panel,
@@ -65,8 +86,8 @@ export const lightTheme: AppTheme = {
     warning: "rgb(242, 181, 68)",
     error: "rgb(177, 70, 70)",
     unread: "rgb(66, 151, 226)",
-    mailBackground: "rgba(250, 250, 250, 1)",
-    videoBackground: "rgba(250, 250, 250, 1)",
+    mailBackground: "rgba(49, 51, 56, 1)",
+    videoBackground: "rgba(31, 32, 35, 1)",
   },
   get cssVars() {
     return createCssVars(this.mode, this.colors);

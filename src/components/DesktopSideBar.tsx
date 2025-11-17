@@ -3,11 +3,13 @@ import React from 'react';
 import { HomeIcon } from '../assets/Icons/HomeIcon';
 import { MessagingIcon } from '../assets/Icons/MessagingIcon';
 import { Save } from './Save/Save';
-import { HubsIcon } from '../assets/Icons/HubsIcon';
 import { CoreSyncStatus } from './CoreSyncStatus';
 import { IconWrapper } from './Desktop/DesktopFooter';
 import AppIcon from './../assets/svgs/AppIcon.svg';
 import { AppsIcon } from '../assets/Icons/AppsIcon';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { useThemeContext } from '../context/ThemeContext';
 
 export const DesktopSideBar = ({
   goToHome,
@@ -23,6 +25,8 @@ export const DesktopSideBar = ({
   desktopViewMode,
   myName,
 }) => {
+  const { themeMode, toggleTheme } = useThemeContext();
+  const isDarkMode = themeMode === 'dark';
   return (
     <Box
       sx={{
@@ -33,6 +37,8 @@ export const DesktopSideBar = ({
         display: 'flex',
         gap: '25px',
         paddingTop: '20px',
+        backgroundColor: 'var(--bg-primary)',
+        color: 'var(--text-contrast)',
       }}
     >
       <Box
@@ -59,8 +65,8 @@ export const DesktopSideBar = ({
           height={34}
           color={
             desktopViewMode === 'home'
-              ? 'white'
-              : 'rgba(250, 250, 250, 0.5)'
+              ? 'var(--text-contrast)'
+              : 'var(--text-contrast-muted)'
           }
         />
       </ButtonBase>
@@ -72,13 +78,13 @@ export const DesktopSideBar = ({
         }}
       >
         <IconWrapper
-          color={isApps ? 'white' : 'rgba(250, 250, 250, 0.5)'}
+          color={isApps ? 'var(--text-contrast)' : 'var(--text-contrast-muted)'}
           label="Apps"
           selected={isApps}
           disableWidth
         >
           <AppsIcon
-            color={isApps ? 'white' : 'rgba(250, 250, 250, 0.5)'}
+            color={isApps ? 'var(--text-contrast)' : 'var(--text-contrast-muted)'}
             height={30}
           />
         </IconWrapper>
@@ -93,8 +99,8 @@ export const DesktopSideBar = ({
             hasUnreadDirects || hasUnreadGroups
               ? 'var(--unread)'
               : desktopViewMode === 'chat'
-                ? 'white'
-                : 'rgba(250, 250, 250, 0.5)'
+                ? 'var(--text-contrast)'
+                : 'var(--text-contrast-muted)'
           }
           label="Chat"
           disableWidth
@@ -105,8 +111,8 @@ export const DesktopSideBar = ({
               hasUnreadDirects || hasUnreadGroups
                 ? 'var(--unread)'
                 : desktopViewMode === 'chat'
-                  ? 'white'
-                  : 'rgba(250, 250, 250, 0.5)'
+                  ? 'var(--text-contrast)'
+                  : 'var(--text-contrast-muted)'
             }
           />
         </IconWrapper>
@@ -130,6 +136,24 @@ export const DesktopSideBar = ({
    
       </ButtonBase> */}
       <Save isDesktop disableWidth myName={myName} />
+      <ButtonBase
+        onClick={toggleTheme}
+        sx={{
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'var(--bg-2)',
+        }}
+      >
+        {isDarkMode ? (
+          <LightModeIcon sx={{ color: 'var(--text-contrast)' }} fontSize="small" />
+        ) : (
+          <DarkModeIcon sx={{ color: 'var(--text-contrast)' }} fontSize="small" />
+        )}
+      </ButtonBase>
     </Box>
   );
 };
