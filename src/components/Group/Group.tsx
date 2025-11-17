@@ -1856,7 +1856,9 @@ export const Group = ({
                 color={(groupChatHasUnread ||
                   groupsAnnHasUnread)
                          ? "var(--unread)"
-                         : desktopSideView === 'groups' ? 'white' :"rgba(250, 250, 250, 0.5)"}
+                         : desktopSideView === 'groups'
+                         ? theme.palette.text.primary
+                         : theme.palette.text.secondary}
                 label="Groups"
                 selected={desktopSideView === 'groups'}
                 customWidth="75px"
@@ -1868,8 +1870,8 @@ export const Group = ({
                groupsAnnHasUnread)
                       ? "var(--unread)"
                       : desktopSideView === 'groups'
-                      ? "white"
-                      : "rgba(250, 250, 250, 0.5)"
+                      ? theme.palette.text.primary
+                      : theme.palette.text.secondary
                   }
                 />
               </IconWrapper>
@@ -1881,7 +1883,7 @@ export const Group = ({
             >
               <IconWrapper
               customWidth="75px"
-                color={directChatHasUnread ? "var(--unread)" : desktopSideView === 'directs' ? 'white' :"rgba(250, 250, 250, 0.5)"}
+                color={directChatHasUnread ? "var(--unread)" : desktopSideView === 'directs' ? theme.palette.text.primary :theme.palette.text.secondary}
                 label="Messaging"
                 selected={desktopSideView === 'directs'}
               >
@@ -1891,8 +1893,8 @@ export const Group = ({
                     directChatHasUnread
                       ? "var(--unread)"
                       : desktopSideView === 'directs'
-                      ? "white"
-                      : "rgba(250, 250, 250, 0.5)"
+                      ? theme.palette.text.primary
+                      : theme.palette.text.secondary
                   }
                 />
               </IconWrapper>
@@ -1955,6 +1957,10 @@ export const Group = ({
             alignItems: "flex-start",
             flexGrow: 1,
             overflowY: "auto",
+            background: theme.palette.background.paper,
+            borderRadius: isMobile ? "0px" : "0px 15px 15px 0px",
+            border: `1px solid ${theme.palette.divider}`,
+            padding: "0px 4px",
             // visibility: chatMode === "groups" && "hidden",
             // position: chatMode === "groups" && "fixed",
             // left: chatMode === "groups" && "-1000px",
@@ -1993,11 +1999,17 @@ export const Group = ({
                   width: "100%",
                   flexDirection: "column",
                   cursor: "pointer",
-                  border: "1px #232428 solid",
-                  padding: "2px",
-                  borderRadius: "2px",
-                  background:
-                    direct?.address === selectedDirect?.address && "white",
+                  border: `1px solid ${theme.palette.divider}`,
+                  padding: "6px",
+                  borderRadius: "8px",
+                  backgroundColor:
+                    direct?.address === selectedDirect?.address
+                      ? theme.palette.action.selected
+                      : "transparent",
+                  transition: "background-color 0.2s ease",
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
                 }}
               >
                 <Box
@@ -2027,8 +2039,9 @@ export const Group = ({
                     primaryTypographyProps={{
                       style: {
                         color:
-                          direct?.address === selectedDirect?.address &&
-                          "black",
+                          direct?.address === selectedDirect?.address
+                            ? theme.palette.text.primary
+                            : theme.palette.text.primary,
                         textWrap: "wrap",
                         overflow: "hidden",
                       },
@@ -2036,8 +2049,9 @@ export const Group = ({
                     secondaryTypographyProps={{
                       style: {
                         color:
-                          direct?.address === selectedDirect?.address &&
-                          "black",
+                          direct?.address === selectedDirect?.address
+                            ? theme.palette.text.primary
+                            : theme.palette.text.secondary,
                         fontSize: "12px",
                       },
                     }}
@@ -2194,7 +2208,7 @@ export const Group = ({
             display: 'flex',
             gap: '10px'
           }}>
-             <ButtonBase
+          <ButtonBase
             onClick={() => {
               setDesktopSideView("groups");
             }}
@@ -2202,8 +2216,8 @@ export const Group = ({
             <IconWrapper
               color={(groupChatHasUnread ||
                 groupsAnnHasUnread)
-                       ? "var(--unread)"
-                       :  desktopSideView === 'groups' ? 'white' :"rgba(250, 250, 250, 0.5)"}
+                         ? "var(--unread)"
+                         :  desktopSideView === 'groups' ? theme.palette.text.primary :theme.palette.text.secondary}
               label="Groups"
               selected={desktopSideView === 'groups'}
               customWidth="75px"
@@ -2215,20 +2229,20 @@ export const Group = ({
              groupsAnnHasUnread)
                     ? "var(--unread)"
                     : desktopSideView === 'groups' 
-                    ? "white"
-                    : "rgba(250, 250, 250, 0.5)"
-                }
-              />
-            </IconWrapper>
-          </ButtonBase>
-          <ButtonBase
+                    ? theme.palette.text.primary
+                    : theme.palette.text.secondary
+              }
+            />
+          </IconWrapper>
+        </ButtonBase>
+        <ButtonBase
             onClick={() => {
               setDesktopSideView("directs");
             }}
           >
             <IconWrapper
             customWidth="75px"
-              color={directChatHasUnread ? "var(--unread)" : desktopSideView === 'directs' ? 'white' :"rgba(250, 250, 250, 0.5)"}
+              color={directChatHasUnread ? "var(--unread)" : desktopSideView === 'directs' ? theme.palette.text.primary :theme.palette.text.secondary}
               label="Messaging"
               selected={desktopSideView === 'directs' }
             >
@@ -2238,8 +2252,8 @@ export const Group = ({
                   directChatHasUnread
                     ? "var(--unread)"
                     : desktopSideView === 'directs' 
-                    ? "white"
-                    : "rgba(250, 250, 250, 0.5)"
+                    ? theme.palette.text.primary
+                    : theme.palette.text.secondary
                 }
               />
             </IconWrapper>
@@ -2257,6 +2271,10 @@ export const Group = ({
             visibility: chatMode === "directs" && "hidden",
             position: chatMode === "directs" && "fixed",
             left: chatMode === "directs" && "-1000px",
+            background: theme.palette.background.paper,
+            borderRadius: isMobile ? "0px" : "0px 15px 15px 0px",
+            border: `1px solid ${theme.palette.divider}`,
+            padding: "0px 4px",
           }}
         >
           {visibleGroups.map((group: any) => {
@@ -2290,11 +2308,17 @@ export const Group = ({
                   width: "100%",
                   flexDirection: "column",
                   cursor: "pointer",
-                  border: "1px #232428 solid",
-                  padding: "2px",
-                  borderRadius: "2px",
-                  background:
-                    group?.groupId === selectedGroup?.groupId && "white",
+                  border: `1px solid ${theme.palette.divider}`,
+                  padding: "6px",
+                  borderRadius: "8px",
+                  backgroundColor:
+                    group?.groupId === selectedGroup?.groupId
+                      ? theme.palette.action.selected
+                      : "transparent",
+                  transition: "background-color 0.2s ease",
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
                 }}
               >
                 <ContextMenu
@@ -2333,7 +2357,7 @@ export const Group = ({
                             width: '20px',
                             height: '20px',
                             borderRadius: '50%',
-                            background: '#1b1d21',
+                            background: theme.palette.background.default,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2358,20 +2382,19 @@ export const Group = ({
                       </Box>
                     </ListItemAvatar>
                     <ListItemText
-                       primary={group.groupId === '0' ? 'General' : group.groupName}
+                      primary={group.groupId === '0' ? 'General' : group.groupName}
                       secondary={!group?.timestamp ? 'no messages' :`last message: ${formatEmailDate(group?.timestamp)}`}
                       primaryTypographyProps={{
                         style: {
-                          color:
-                            group?.groupId === selectedGroup?.groupId &&
-                            "black",
+                          color: theme.palette.text.primary,
                         },
-                      }} // Change the color of the primary text
+                      }}
                       secondaryTypographyProps={{
                         style: {
                           color:
-                            group?.groupId === selectedGroup?.groupId &&
-                            "black",
+                            group?.groupId === selectedGroup?.groupId
+                              ? theme.palette.text.primary
+                              : theme.palette.text.secondary,
                             fontSize: '12px'
                         },
                       }}
@@ -2429,7 +2452,7 @@ export const Group = ({
             >
               <AddCircleOutlineIcon
                 sx={{
-                  color: "white",
+                  color: theme.palette.text.primary,
                 }}
               />
               Group Mgmt
@@ -2446,7 +2469,7 @@ export const Group = ({
             >
               <PersonOffIcon
                 sx={{
-                  color: "white",
+                  color: theme.palette.text.primary,
                 }}
               />
             </CustomButton>
@@ -2465,7 +2488,7 @@ export const Group = ({
             >
               <CreateIcon
                 sx={{
-                  color: "white",
+                  color: theme.palette.text.primary,
                 }}
               />
               New Chat

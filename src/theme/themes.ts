@@ -26,19 +26,19 @@ export interface AppTheme {
 const MODE_SPECIFIC_VARS: Record<ThemeMode, Record<string, string>> = {
   light: {
     "--Mail-Background": "rgba(49, 51, 56, 1)",
-    "--bg-primary": "rgba(31, 32, 35, 1)",
-    "--bg-2": "rgba(39, 40, 44, 1)",
+    "--bg-primary": "rgba(250, 250, 250, 1)",
+    "--bg-2": "rgb(240, 240, 240)",
     "--videoplayer-bg": "rgba(31, 32, 35, 1)",
-    "--text-contrast": "rgba(255, 255, 255, 0.92)",
-    "--text-contrast-muted": "rgba(255, 255, 255, 0.5)",
+    "--text-contrast": "rgba(0, 0, 0, 0.87)",
+    "--text-contrast-muted": "rgba(0, 0, 0, 0.6)",
   },
   dark: {
     "--Mail-Background": "rgba(6, 10, 30, 1)",
-    "--bg-primary": "rgba(6, 10, 30, 1)",
-    "--bg-2": "rgb(39, 40, 44)",
+    "--bg-primary": "rgb(49, 51, 56)",
+    "--bg-2": "rgb(58, 60, 65)",
     "--videoplayer-bg": "rgba(31, 32, 35, 1)",
-    "--text-contrast": "rgba(255, 255, 255, 0.92)",
-    "--text-contrast-muted": "rgba(255, 255, 255, 0.65)",
+    "--text-contrast": "rgb(255, 255, 255)",
+    "--text-contrast-muted": "rgb(179, 179, 179)",
   },
 };
 
@@ -46,7 +46,7 @@ const createCssVars = (mode: ThemeMode, colors: AppTheme["colors"]) => ({
   "--Mail-Background": MODE_SPECIFIC_VARS[mode]["--Mail-Background"],
   "--bg-primary": MODE_SPECIFIC_VARS[mode]["--bg-primary"],
   "--bg-2": MODE_SPECIFIC_VARS[mode]["--bg-2"],
-  "--bg-3": mode === "light" ? "rgba(0, 0, 0, 0.06)" : "rgba(255, 255, 255, 0.08)",
+  "--bg-3": colors.borderSubtle,
   "--unread": colors.unread,
   "--danger": colors.error,
   "--apps-circle": colors.surface,
@@ -67,6 +67,16 @@ const createCssVars = (mode: ThemeMode, colors: AppTheme["colors"]) => ({
   "--gray-2": colors.border,
   "--gray-3": colors.borderSubtle,
   "--code-block-text-color": colors.primary,
+  "--sidebar-bg": colors.background,
+  "--sidebar-border": colors.borderSubtle,
+  "--sidebar-icon-default": colors.textSecondary,
+  "--sidebar-icon-active": colors.textPrimary,
+  "--chat-list-bg": colors.surface,
+  "--chat-list-selected":
+    mode === "light" ? "rgba(0, 0, 0, 0.06)" : "rgba(255, 255, 255, 0.08)",
+  "--chat-input-bg": colors.surface,
+  "--chat-input-border": colors.borderSubtle,
+  "--chat-input-placeholder": colors.textSecondary,
 });
 
 export const lightTheme: AppTheme = {

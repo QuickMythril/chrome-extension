@@ -10,6 +10,7 @@ import { MessageItem } from "./MessageItem";
 import { subscribeToEvent, unsubscribeFromEvent } from "../../utils/events";
 import { useInView } from "react-intersection-observer";
 import { Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { ChatOptions } from "./ChatOptions";
 import ErrorBoundary from "../../common/ErrorBoundary";
 
@@ -35,6 +36,7 @@ export const ChatList = ({
   const [messages, setMessages] = useState(initialMessages);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [showScrollDownButton, setShowScrollDownButton] = useState(false);
+  const theme = useTheme();
   const hasLoadedInitialRef = useRef(false);
   const scrollingIntervalRef = useRef(null);
   const lastSeenUnreadMessageTimestamp = useRef(null);
@@ -402,8 +404,10 @@ export const ChatList = ({
               bottom: 20,
               position: "absolute",
               right: 20,
-              backgroundColor: "var(--unread)",
-              color: "black",
+              backgroundColor: theme.palette.primary.dark,
+              color: theme.palette.getContrastText
+                ? theme.palette.getContrastText(theme.palette.primary.dark)
+                : theme.palette.background.default,
               padding: "10px 20px",
               borderRadius: "20px",
               cursor: "pointer",
@@ -422,8 +426,10 @@ export const ChatList = ({
               bottom: 20,
               position: "absolute",
               right: 20,
-              backgroundColor: "var(--Mail-Background)",
-              color: "white",
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.getContrastText
+                ? theme.palette.getContrastText(theme.palette.primary.main)
+                : theme.palette.background.default,
               padding: "10px 20px",
               borderRadius: "20px",
               cursor: "pointer",

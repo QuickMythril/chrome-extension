@@ -1,4 +1,4 @@
-import { Box, ButtonBase } from '@mui/material';
+import { Box, ButtonBase, Divider, useTheme } from '@mui/material';
 import React from 'react';
 import { HomeIcon } from '../assets/Icons/HomeIcon';
 import { MessagingIcon } from '../assets/Icons/MessagingIcon';
@@ -25,135 +25,155 @@ export const DesktopSideBar = ({
   desktopViewMode,
   myName,
 }) => {
-  const { themeMode, toggleTheme } = useThemeContext();
+  const muiTheme = useTheme();
+  const { themeMode, toggleTheme, theme: appTheme } = useThemeContext();
   const isDarkMode = themeMode === 'dark';
   return (
     <Box
       sx={{
-        width: '60px',
+        width: '70px',
         flexDirection: 'column',
         height: '100vh',
         alignItems: 'center',
         display: 'flex',
-        gap: '25px',
-        paddingTop: '20px',
-        backgroundColor: 'var(--bg-primary)',
-        color: 'var(--text-contrast)',
+        paddingY: '20px',
+        backgroundColor: muiTheme.palette.background.default,
+        color: muiTheme.palette.text.primary,
+        borderRight: `1px solid ${muiTheme.palette.divider}`,
       }}
     >
       <Box
         sx={{
-          height: '40px',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          gap: '20px',
+          width: '100%',
         }}
       >
-        <CoreSyncStatus imageSize="30px" position="left" />
-      </Box>
-      <ButtonBase
-        sx={{
-          width: '60px',
-          height: '60px',
-          paddingTop: '5px',
-        }}
-        onClick={() => {
-          goToHome();
-        }}
-      >
-        <HomeIcon
-          height={34}
-          color={
-            desktopViewMode === 'home'
-              ? 'var(--text-contrast)'
-              : 'var(--text-contrast-muted)'
-          }
-        />
-      </ButtonBase>
-      <ButtonBase
-        onClick={() => {
-          setDesktopViewMode('apps');
-          // setIsOpenSideViewDirects(false)
-          // setIsOpenSideViewGroups(false)
-        }}
-      >
-        <IconWrapper
-          color={isApps ? 'var(--text-contrast)' : 'var(--text-contrast-muted)'}
-          label="Apps"
-          selected={isApps}
-          disableWidth
+        <Box
+          sx={{
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <AppsIcon
-            color={isApps ? 'var(--text-contrast)' : 'var(--text-contrast-muted)'}
-            height={30}
+          <CoreSyncStatus imageSize="30px" position="left" />
+        </Box>
+        <ButtonBase
+          sx={{
+            width: '60px',
+            height: '60px',
+            paddingTop: '5px',
+          }}
+          onClick={() => {
+            goToHome();
+          }}
+        >
+          <HomeIcon
+            height={34}
+            color={
+              desktopViewMode === 'home'
+                ? muiTheme.palette.text.primary
+                : muiTheme.palette.text.secondary
+            }
           />
-        </IconWrapper>
-      </ButtonBase>
-      <ButtonBase
-        onClick={() => {
-          setDesktopViewMode('chat');
-        }}
-      >
-        <IconWrapper
-          color={
-            hasUnreadDirects || hasUnreadGroups
-              ? 'var(--unread)'
-              : desktopViewMode === 'chat'
-                ? 'var(--text-contrast)'
-                : 'var(--text-contrast-muted)'
-          }
-          label="Chat"
-          disableWidth
+        </ButtonBase>
+        <ButtonBase
+          onClick={() => {
+            setDesktopViewMode('apps');
+          }}
         >
-          <MessagingIcon
-            height={30}
+          <IconWrapper
+            color={
+              isApps
+                ? muiTheme.palette.text.primary
+                : muiTheme.palette.text.secondary
+            }
+            label="Apps"
+            selected={isApps}
+            disableWidth
+          >
+            <AppsIcon
+              color={
+                isApps
+                  ? muiTheme.palette.text.primary
+                  : muiTheme.palette.text.secondary
+              }
+              height={30}
+            />
+          </IconWrapper>
+        </ButtonBase>
+        <ButtonBase
+          onClick={() => {
+            setDesktopViewMode('chat');
+          }}
+        >
+          <IconWrapper
             color={
               hasUnreadDirects || hasUnreadGroups
-                ? 'var(--unread)'
+                ? appTheme.colors.unread
                 : desktopViewMode === 'chat'
-                  ? 'var(--text-contrast)'
-                  : 'var(--text-contrast-muted)'
+                  ? muiTheme.palette.text.primary
+                  : muiTheme.palette.text.secondary
             }
-          />
-        </IconWrapper>
-      </ButtonBase>
-      {/* <ButtonBase
-        onClick={() => {
-          setDesktopSideView("groups");
-          toggleSideViewGroups()
-        }}
-      >
-          <HubsIcon
-            height={30}
-            color={
-              hasUnreadGroups
-                ? "var(--danger)"
-                : isGroups
-                ? "white"
-                : "rgba(250, 250, 250, 0.5)"
-            }
-          />
-   
-      </ButtonBase> */}
-      <Save isDesktop disableWidth myName={myName} />
-      <ButtonBase
-        onClick={toggleTheme}
+            label="Chat"
+            disableWidth
+          >
+            <MessagingIcon
+              height={30}
+              color={
+                hasUnreadDirects || hasUnreadGroups
+                  ? appTheme.colors.unread
+                  : desktopViewMode === 'chat'
+                    ? muiTheme.palette.text.primary
+                    : muiTheme.palette.text.secondary
+              }
+            />
+          </IconWrapper>
+        </ButtonBase>
+        <Save isDesktop disableWidth myName={myName} />
+      </Box>
+      <Box
         sx={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '50%',
+          width: '100%',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'var(--bg-2)',
+          marginTop: 'auto',
+          gap: '12px',
         }}
       >
-        {isDarkMode ? (
-          <LightModeIcon sx={{ color: 'var(--text-contrast)' }} fontSize="small" />
-        ) : (
-          <DarkModeIcon sx={{ color: 'var(--text-contrast)' }} fontSize="small" />
-        )}
-      </ButtonBase>
+        <Divider
+          orientation="horizontal"
+          flexItem
+          sx={{ borderColor: muiTheme.palette.divider, width: '60%' }}
+        />
+        <ButtonBase
+          onClick={toggleTheme}
+          sx={{
+            width: '42px',
+            height: '42px',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: muiTheme.palette.background.paper,
+            border: `1px solid ${muiTheme.palette.divider}`,
+            color: muiTheme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: muiTheme.palette.action.hover,
+            },
+          }}
+        >
+          {isDarkMode ? (
+            <LightModeIcon fontSize="small" sx={{ color: muiTheme.palette.text.primary }} />
+          ) : (
+            <DarkModeIcon fontSize="small" sx={{ color: muiTheme.palette.text.primary }} />
+          )}
+        </ButtonBase>
+      </Box>
     </Box>
   );
 };

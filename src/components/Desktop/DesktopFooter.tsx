@@ -4,6 +4,7 @@ import {
   BottomNavigationAction,
   ButtonBase,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Home, Groups, Message, ShowChart } from "@mui/icons-material";
 import Box from "@mui/material/Box";
@@ -19,6 +20,7 @@ import { HomeIcon } from "../../assets/Icons/HomeIcon";
 import { Save } from "../Save/Save";
 
 export const IconWrapper = ({ children, label, color, selected, disableWidth, customWidth }) => {
+  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -30,7 +32,7 @@ export const IconWrapper = ({ children, label, color, selected, disableWidth, cu
         height: customWidth ? customWidth : disableWidth ? 'auto' :  "89px",
         width: customWidth? customWidth : disableWidth ? 'auto' : "89px",
         borderRadius: "50%",
-        backgroundColor: selected ? "var(--bg-2)" : "transparent",
+        backgroundColor: selected ? theme.palette.action.selected : "transparent",
       }}
     >
       {children}
@@ -39,7 +41,7 @@ export const IconWrapper = ({ children, label, color, selected, disableWidth, cu
           fontFamily: "Inter",
           fontSize: "12px",
           fontWeight: 500,
-          color: color,
+          color: color || theme.palette.text.primary,
         }}
       >
         {label}

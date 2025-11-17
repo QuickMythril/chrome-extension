@@ -51,6 +51,8 @@ function textMatcher(doc, from) {
 const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEditorEnter }) => {
   const { editor } = useCurrentEditor();
   const fileInputRef = useRef(null);
+  const iconColor = (active?: boolean) =>
+    active ? "var(--text-primary)" : "var(--text-secondary)";
 
   if (!editor) {
     return null;
@@ -131,7 +133,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
           sx={{
-            color: editor.isActive("bold") ? "white" : "gray",
+            color: iconColor(editor.isActive("bold")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -141,7 +143,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
           sx={{
-            color: editor.isActive("italic") ? "white" : "gray",
+            color: iconColor(editor.isActive("italic")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -151,7 +153,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editor.can().chain().focus().toggleStrike().run()}
           sx={{
-            color: editor.isActive("strike") ? "white" : "gray",
+            color: iconColor(editor.isActive("strike")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -161,7 +163,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editor.can().chain().focus().toggleCode().run()}
           sx={{
-            color: editor.isActive("code") ? "white" : "gray",
+            color: iconColor(editor.isActive("code")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -170,13 +172,12 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
         <IconButton
           onClick={() => editor.chain().focus().unsetAllMarks().run()}
           sx={{
-            color:
+            color: iconColor(
               editor.isActive("bold") ||
-              editor.isActive("italic") ||
-              editor.isActive("strike") ||
-              editor.isActive("code")
-                ? "white"
-                : "gray",
+                editor.isActive("italic") ||
+                editor.isActive("strike") ||
+                editor.isActive("code")
+            ),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -185,7 +186,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
         <IconButton
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           sx={{
-            color: editor.isActive("bulletList") ? "white" : "gray",
+            color: iconColor(editor.isActive("bulletList")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -194,7 +195,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
         <IconButton
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           sx={{
-            color: editor.isActive("orderedList") ? "white" : "gray",
+            color: iconColor(editor.isActive("orderedList")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -203,7 +204,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
         <IconButton
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           sx={{
-            color: editor.isActive("codeBlock") ? "white" : "gray",
+            color: iconColor(editor.isActive("codeBlock")),
             padding: isMobile ? "5px" : "revert",
           }}
         >
@@ -212,7 +213,7 @@ const MenuBar = ({ setEditorRef, isChat, isDisabledEditorEnter, setIsDisabledEdi
         <IconButton
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           sx={{
-            color: editor.isActive("blockquote") ? "white" : "gray",
+            color: iconColor(editor.isActive("blockquote")),
             padding: isMobile ? "5px" : "revert",
           }}
         >

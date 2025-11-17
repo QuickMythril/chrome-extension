@@ -17,6 +17,7 @@ import { useMessageQueue } from '../../MessageQueueContext'
 import { executeEvent, subscribeToEvent, unsubscribeFromEvent } from '../../utils/events'
 import { Box, ButtonBase, Divider, Typography,   IconButton,
   Tooltip } from '@mui/material'
+import { useTheme } from '@mui/material/styles';
 import ShortUniqueId from "short-unique-id";
 import { ReplyPreview } from './MessageItem'
 import { ExitIcon } from '../../assets/Icons/ExitIcon'
@@ -57,6 +58,7 @@ export const ChatGroup = ({selectedGroup, secretKey, setSecretKey, getSecretKey,
   const {isUserBlocked, show} = useContext(MyContext)
   const [chatImagesToSave, setChatImagesToSave] = useState([]);
   const [isDeleteImage, setIsDeleteImage] = useState(false);
+  const theme = useTheme();
 
   const { queueChats, addToQueue, processWithNewMessages } = useMessageQueue();
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -930,9 +932,9 @@ useEffect(() => {
    
  {(!!secretKey || isPrivate === false) && (
       <div style={{
-        // position: 'fixed',
-        // bottom: '0px',
-        backgroundColor: "#232428",
+        backgroundColor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: '12px',
         minHeight: isMobile ? '0px' : '150px',
         display: 'flex',
         flexDirection: 'row',
@@ -944,7 +946,7 @@ useEffect(() => {
         bottom: isFocusedParent ? '0px' : 'unset',
         top: isFocusedParent ? '0px' : 'unset',
         zIndex: isFocusedParent ? 5 : 'unset',
-        flexShrink: 0
+        flexShrink: 0,
       }}>
       
       <div style={{
@@ -983,7 +985,7 @@ useEffect(() => {
                         height: '100%',
                         width: '100%',
                         borderRadius: '3px',
-                        color:'white'
+                        color: theme.palette.text.primary
                       }}
                     />
                     <Tooltip title="Delete image">
@@ -1151,7 +1153,9 @@ useEffect(() => {
                 marginTop: 'auto',
                 alignSelf: 'center',
                 cursor: isSending ? 'default' : 'pointer',
-                background: isSending && 'rgba(0, 0, 0, 0.8)',
+                background: isSending
+                  ? theme.palette.background.default
+                  : theme.palette.background.paper,
                 flexShrink: 0,
                 padding: '5px',
                 width: '100px',
@@ -1168,7 +1172,7 @@ useEffect(() => {
                   left: '50%',
                   marginTop: '-12px',
                   marginLeft: '-12px',
-                  color: 'white'
+                  color: theme.palette.text.primary
                 }}
               />
               )}

@@ -7,6 +7,7 @@ import Tiptap from './TipTap'
 import { CustomButton } from '../../App-styles'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box, ButtonBase, Input, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { LoadingSnackbar } from '../Snackbar/LoadingSnackbar';
 import { getNameInfo } from '../Group/Group';
 import { Spacer } from '../../common/Spacer';
@@ -48,6 +49,7 @@ export const ChatDirect = ({ myAddress, isNewChat, selectedDirect, setSelectedDi
   const [replyMessage, setReplyMessage] = useState(null)
   const [onEditMessage, setOnEditMessage] = useState(null)
   const [chatReferences, setChatReferences] = useState({})
+  const theme = useTheme();
 
   const setEditorRef = (editorInstance) => {
     editorRef.current = editorInstance;
@@ -779,9 +781,9 @@ const sendMessage = async ()=> {
 
    
       <div style={{
-        // position: 'fixed',
-        // bottom: '0px',
-        backgroundColor: "#232428",
+        backgroundColor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: '12px',
         minHeight: isMobile ? '0px' : '150px',
         maxHeight: isMobile ? 'auto' : '400px',
         display: 'flex',
@@ -881,15 +883,15 @@ const sendMessage = async ()=> {
                  clearEditorContent()
                  // Unfocus the editor
                }}
-               style={{
-                 marginTop: 'auto',
-                 alignSelf: 'center',
-                 cursor: isSending ? 'default' : 'pointer',
-                 background: 'red',
-                 flexShrink: 0,
-                 padding: isMobile && '5px'
-               }}
-             >
+              style={{
+                marginTop: 'auto',
+                alignSelf: 'center',
+                cursor: isSending ? 'default' : 'pointer',
+                background: theme.palette.background.default,
+                flexShrink: 0,
+                padding: isMobile && '5px'
+              }}
+            >
                
                {` Close`}
              </CustomButton>
@@ -904,7 +906,9 @@ const sendMessage = async ()=> {
                 marginTop: 'auto',
                 alignSelf: 'center',
                 cursor: isSending ? 'default' : 'pointer',
-                background: isSending && 'rgba(0, 0, 0, 0.8)',
+                background: isSending
+                  ? theme.palette.background.default
+                  : theme.palette.background.paper,
                 flexShrink: 0,
                 padding: isMobile && '5px',
                 width: '100px',
@@ -920,7 +924,7 @@ const sendMessage = async ()=> {
                   left: '50%',
                   marginTop: '-12px',
                   marginLeft: '-12px',
-                  color: 'white'
+                  color: theme.palette.text.primary
                 }}
               />
               )}

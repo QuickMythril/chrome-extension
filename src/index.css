@@ -26,20 +26,20 @@
   margin: 0px;
   box-sizing: border-box !important;
   word-break: break-word;
-  --color-instance : #1F2023;
-  --color-instance-popover-bg: #222222;
+  --color-instance : rgb(240, 240, 240);
+  --color-instance-popover-bg: rgb(220, 220, 220);
   --Mail-Background: rgba(49, 51, 56, 1);
   --new-message-text: rgba(0, 0, 0, 0.87);
 
-  --bg-primary : rgba(31, 32, 35, 1);
-  --bg-2: rgba(39, 40, 44, 1);
+  --bg-primary : rgba(250, 250, 250, 1);
+  --bg-2: rgb(240, 240, 240);
   --bg-3: rgba(0, 0, 0, 0.08);
   --unread: rgb(66, 151, 226);
-  --apps-circle: rgba(31, 32, 35, 1);
+  --apps-circle: rgb(240, 240, 240);
   --green: rgb(94, 176, 73);
   --danger: rgb(177, 70, 70);
-  --text-contrast: rgba(255, 255, 255, 0.92);
-  --text-contrast-muted: rgba(255, 255, 255, 0.5);
+  --text-contrast: rgba(0, 0, 0, 0.87);
+  --text-contrast-muted: rgba(0, 0, 0, 0.6);
 }
 
 body {
