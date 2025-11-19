@@ -8,13 +8,14 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import CommentIcon from "@mui/icons-material/Comment";
 import InfoIcon from "@mui/icons-material/Info";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { Spacer } from "../../common/Spacer";
 import { isMobile } from "../../App";
 import { QMailMessages } from "./QMailMessages";
 import { executeEvent } from "../../utils/events";
 
 export const ThingsToDoInitial = ({ myAddress, name, hasGroups, balance, userInfo }) => {
+  const theme = useTheme();
   const [checked1, setChecked1] = React.useState(false);
   const [checked2, setChecked2] = React.useState(false);
   // const [checked3, setChecked3] = React.useState(false);
@@ -130,10 +131,10 @@ if(!isLoaded) return null
                      height: "18px",
                      width: "18px",
                      borderRadius: "50%",
-                     backgroundColor: checked1 ? "rgba(9, 182, 232, 1)" : "transparent",
-                     outline: "1px solid rgba(9, 182, 232, 1)",
-                   }}
-                 />
+                     backgroundColor: checked1 ? theme.palette.primary.main : "transparent",
+                     outline: `1px solid ${theme.palette.primary.main}`,
+                  }}
+                />
                  {/* <Checkbox
                    edge="start"
                    checked={checked1}
@@ -187,10 +188,10 @@ if(!isLoaded) return null
                      height: "18px",
                      width: "18px",
                      borderRadius: "50%",
-                     backgroundColor: checked2 ? "rgba(9, 182, 232, 1)" : "transparent",
-                     outline: "1px solid rgba(9, 182, 232, 1)",
-                   }}
-                 />
+                     backgroundColor: checked2 ? theme.palette.primary.main : "transparent",
+                     outline: `1px solid ${theme.palette.primary.main}`,
+                  }}
+                />
                </ListItemIcon>
              </ListItemButton>
            </ListItem>

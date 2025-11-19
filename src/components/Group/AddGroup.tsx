@@ -24,6 +24,7 @@ import {
   Tab,
   Tabs,
   styled,
+  useTheme,
 } from "@mui/material";
 import { AddGroupList } from "./AddGroupList";
 import { UserListOfInvites } from "./UserListOfInvites";
@@ -51,6 +52,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export const AddGroup = ({ address, open, setOpen }) => {
+  const theme = useTheme();
   const {show, setTxList} = React.useContext(MyContext)
 
   const [tab, setTab] = React.useState("create");
@@ -213,10 +215,10 @@ export const AddGroup = ({ address, open, setOpen }) => {
         </AppBar>
         <Box
           sx={{
-            bgcolor: "#27282c",
+            bgcolor: theme.palette.background.default,
             flexGrow: 1,
             overflowY: "auto",
-            color: "white",
+            color: theme.palette.text.primary,
             flexDirection: 'column',
             display: 'flex'
           }}
@@ -231,7 +233,7 @@ export const AddGroup = ({ address, open, setOpen }) => {
       allowScrollButtonsMobile
       sx={{
         "& .MuiTabs-indicator": {
-          backgroundColor: "white",
+          backgroundColor: theme.palette.text.primary,
         },
       }}
     >
@@ -240,7 +242,7 @@ export const AddGroup = ({ address, open, setOpen }) => {
         {...a11yProps(0)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem', // Adjust font size for mobile
         }}
@@ -250,7 +252,7 @@ export const AddGroup = ({ address, open, setOpen }) => {
         {...a11yProps(1)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem', // Adjust font size for mobile
         }}
@@ -260,7 +262,7 @@ export const AddGroup = ({ address, open, setOpen }) => {
         {...a11yProps(2)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem', // Adjust font size for mobile
         }}

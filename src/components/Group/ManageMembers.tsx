@@ -17,7 +17,7 @@ import { InviteMember } from "./InviteMember";
 import { ListOfInvites } from "./ListOfInvites";
 import { ListOfBans } from "./ListOfBans";
 import { ListOfJoinRequests } from "./ListOfJoinRequests";
-import { Box, ButtonBase, Card, Tab, Tabs } from "@mui/material";
+import { Box, ButtonBase, Card, Tab, Tabs, useTheme } from "@mui/material";
 import { CustomizedSnackbars } from "../Snackbar/Snackbar";
 import { MyContext, getBaseApiReact, isMobile } from "../../App";
 import { getGroupMembers, getNames } from "./Group";
@@ -53,6 +53,7 @@ export const ManageMembers = ({
   isAdmin,
   isOwner
 }) => {
+  const theme = useTheme();
   const [membersWithNames, setMembersWithNames] = React.useState([]);
   const [tab, setTab] = React.useState("create");
   const [value, setValue] = React.useState(0);
@@ -171,7 +172,7 @@ export const ManageMembers = ({
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative", bgcolor: "#232428" }}>
+        <AppBar sx={{ position: "relative", bgcolor: theme.palette.background.paper, color: theme.palette.text.primary }}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Manage Members
@@ -188,10 +189,10 @@ export const ManageMembers = ({
         </AppBar>
         <Box
           sx={{
-            bgcolor: "#27282c",
+            bgcolor: theme.palette.background.default,
             flexGrow: 1,
             overflowY: "auto",
-            color: "white",
+            color: theme.palette.text.primary,
           }}
         >
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -204,7 +205,7 @@ export const ManageMembers = ({
       allowScrollButtonsMobile  // Show scroll buttons on mobile as well
       sx={{
         "& .MuiTabs-indicator": {
-          backgroundColor: "white",
+          backgroundColor: theme.palette.text.primary,
         },
         maxWidth: '100%',  // Ensure the tabs container fits within the available space
         overflow: 'hidden', // Prevents overflow on small screens
@@ -215,7 +216,7 @@ export const ManageMembers = ({
         {...a11yProps(0)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem', // Adjust font size for mobile
         }}
@@ -225,7 +226,7 @@ export const ManageMembers = ({
         {...a11yProps(1)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem',
         }}
@@ -235,7 +236,7 @@ export const ManageMembers = ({
         {...a11yProps(2)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem',
         }}
@@ -245,7 +246,7 @@ export const ManageMembers = ({
         {...a11yProps(3)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem',
         }}
@@ -255,7 +256,7 @@ export const ManageMembers = ({
         {...a11yProps(4)}
         sx={{
           "&.Mui-selected": {
-            color: "white",
+            color: theme.palette.text.primary,
           },
           fontSize: isMobile ? '0.75rem' : '1rem',
         }}

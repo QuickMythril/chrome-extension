@@ -3,13 +3,12 @@ import {
   Card,
   CardContent,
   Typography,
-
   Box,
   ButtonBase,
   Divider,
   Dialog,
   IconButton,
-
+  useTheme,
 } from "@mui/material";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -30,6 +29,7 @@ export const ImageCard = ({
     errorMsg,
     encryptionType,
   }) => {
+    const theme = useTheme();
     const [isOpen, setIsOpen] = useState(true);
     const [height, setHeight] = useState('400px')
     useEffect(() => {
@@ -47,7 +47,7 @@ export const ImageCard = ({
     return (
       <Card
         sx={{
-          backgroundColor: "#1F2023",
+          backgroundColor: theme.palette.background.paper,
           height: height,
           transition: "height 0.6s ease-in-out",
           display: 'flex',
@@ -71,7 +71,7 @@ export const ImageCard = ({
           >
             <ImageIcon
               sx={{
-                color: "white",
+                color: theme.palette.text.primary,
               }}
             />
             <Typography>IMAGE embed</Typography>
@@ -88,7 +88,7 @@ export const ImageCard = ({
                 onClick={refresh}
                 sx={{
                   fontSize: "24px",
-                  color: "white",
+                  color: theme.palette.text.primary,
                 }}
               />
             </ButtonBase>
@@ -96,11 +96,11 @@ export const ImageCard = ({
               <ButtonBase>
                 <OpenInNewIcon
                   onClick={openExternal}
-                  sx={{
-                    fontSize: "24px",
-                    color: "white",
-                  }}
-                />
+                    sx={{
+                      fontSize: "24px",
+                      color: theme.palette.text.primary,
+                    }}
+                  />
               </ButtonBase>
             )}
           </Box>
@@ -113,7 +113,7 @@ export const ImageCard = ({
           <Typography
             sx={{
               fontSize: "12px",
-              color: "white",
+              color: theme.palette.text.primary,
             }}
           >
             Created by {decodeIfEncoded(owner)}
@@ -121,13 +121,13 @@ export const ImageCard = ({
           <Typography
             sx={{
               fontSize: "12px",
-              color: "cadetblue",
+              color: theme.palette.primary.main,
             }}
           >
             {encryptionType === 'private' ? "ENCRYPTED" : encryptionType === 'group' ? 'GROUP ENCRYPTED' : "Not encrypted"}
           </Typography>
         </Box>
-        <Divider sx={{ borderColor: "rgb(255 255 255 / 10%)" }} />
+        <Divider sx={{ borderColor: theme.palette.divider }} />
         <Box
           sx={{
             display: "flex",
@@ -190,6 +190,7 @@ export const ImageCard = ({
   };
 
   export function ImageViewer({ src, alt = "" }) {
+    const theme = useTheme();
     const [isFullscreen, setIsFullscreen] = useState(false);
   
     const handleOpenFullscreen = () => setIsFullscreen(true);
@@ -244,7 +245,7 @@ export const ImageCard = ({
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#000", // Optional: dark background for fullscreen mode
+              backgroundColor: theme.palette.background.default,
             }}
           >
             {/* Close Button */}
@@ -255,7 +256,7 @@ export const ImageCard = ({
                 top: 8,
                 right: 8,
                 zIndex: 10,
-                color: "white",
+                color: theme.palette.text.primary,
               }}
             >
               <CloseIcon />

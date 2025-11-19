@@ -3,9 +3,10 @@ import QMailLogo from '../assets/QMailLogo.png'
 import { useRecoilState } from 'recoil'
 import { mailsAtom, qMailLastEnteredTimestampAtom } from '../atoms/global'
 import { isLessThanOneWeekOld } from './Group/QMailMessages'
-import { ButtonBase, Tooltip } from '@mui/material'
+import { ButtonBase, Tooltip, useTheme } from '@mui/material'
 import { executeEvent } from '../utils/events'
 export const QMailStatus = () => {
+     const theme = useTheme();
      const [lastEnteredTimestamp, setLastEnteredTimestamp] = useRecoilState(qMailLastEnteredTimestampAtom)
      const [mails, setMails] = useRecoilState(mailsAtom)
 
@@ -33,24 +34,24 @@ export const QMailStatus = () => {
             height: '15px',
             width: '15px',
             borderRadius: '50%',
-            outline: '1px solid white'
+            outline: `1px solid ${theme.palette.background.paper}`
         }} />
     )}
      <Tooltip
-        title={<span style={{ color: "white", fontSize: "14px", fontWeight: 700 }}>Q-MAIL</span>} 
+        title={<span style={{ color: theme.palette.text.primary, fontSize: "14px", fontWeight: 700 }}>Q-MAIL</span>} 
         placement="left"
         arrow
         sx={{ fontSize: "24" }}
         slotProps={{
           tooltip: {
             sx: {
-              color: "#ffffff",
-              backgroundColor: "#444444",
+              color: theme.palette.text.primary,
+              backgroundColor: theme.palette.background.paper,
             },
           },
           arrow: {
             sx: {
-              color: "#444444",
+              color: theme.palette.background.paper,
             },
           },
         }}

@@ -49,39 +49,35 @@ export const MailBodyInnerHeader = styled(Box)(({ theme }) => ({
   gap: "11px",
 }));
 
-export const MailBodyInnerScroll = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  overflow: auto !important;
-  transition: background-color 0.3s;
-  height: calc(100% - 110px);
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    background-color: transparent; /* Initially transparent */
-    transition: background-color 0.3s; /* Transition for background color */
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent; /* Initially transparent */
-    border-radius: 3px; /* Scrollbar thumb radius */
-    transition: background-color 0.3s; /* Transition for thumb color */
-  }
-
-  &:hover {
-    &::-webkit-scrollbar {
-      background-color: #494747; /* Scrollbar background color on hover */
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #ffffff3d; /* Scrollbar thumb color on hover */
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #ffffff3d; /* Color when hovering over the thumb */
-    }
-  }
-`;
+export const MailBodyInnerScroll = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  overflow: "auto !important",
+  transition: "background-color 0.3s",
+  height: "calc(100% - 110px)",
+  "&::-webkit-scrollbar": {
+    width: 8,
+    height: 8,
+    backgroundColor: "transparent",
+    transition: "background-color 0.3s",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "transparent",
+    borderRadius: 3,
+    transition: "background-color 0.3s",
+  },
+  "&:hover": {
+    "&::-webkit-scrollbar": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: theme.palette.text.secondary,
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: theme.palette.text.secondary,
+    },
+  },
+}));
 
 export const ComposeContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -93,7 +89,7 @@ export const ComposeContainer = styled(Box)(({ theme }) => ({
   transition: "0.2s background-color",
   justifyContent: "center",
   "&:hover": {
-    backgroundColor: "rgba(67, 68, 72, 1)",
+    backgroundColor: theme.palette.action.hover,
   },
 }));
 export const ComposeContainerBlank = styled(Box)(({ theme }) => ({
@@ -150,7 +146,7 @@ export const SelectInstanceContainerInner = styled(Box)(({ theme }) => ({
   transition: "all 0.2s",
   "&:hover": {
     borderRadius: "8px",
-    background: "#434448",
+    background: theme.palette.action.hover,
   },
 }));
 export const SelectInstanceContainerFilterInner = styled(Box)(({ theme }) => ({
@@ -166,7 +162,7 @@ export const SelectInstanceContainerFilterInner = styled(Box)(({ theme }) => ({
 export const InstanceLabel = styled(Typography)(({ theme }) => ({
   fontSize: "16px",
   fontWeight: 500,
-  color: "#FFFFFF33",
+  color: theme.palette.text.secondary,
 }));
 
 export const InstanceP = styled(Typography)(({ theme }) => ({
@@ -184,7 +180,7 @@ export const MailMessageRowContainer = styled(Box)(({ theme }) => ({
   transition: "background 0.2s",
   gap: "10px",
   "&:hover": {
-    background: "#434448",
+    background: theme.palette.action.hover,
   },
 }));
 export const MailMessageRowProfile = styled(Box)(({ theme }) => ({
@@ -266,41 +262,36 @@ export const InstanceFooter = styled(Box)`
   width: 100%;
   flex-shrink: 0;
 `;
-export const InstanceListContainer = styled(Box)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-
-  overflow: auto !important;
-  transition: background-color 0.3s;
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    background-color: transparent; /* Initially transparent */
-    transition: background-color 0.3s; /* Transition for background color */
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent; /* Initially transparent */
-    border-radius: 3px; /* Scrollbar thumb radius */
-    transition: background-color 0.3s; /* Transition for thumb color */
-  }
-
-  &:hover {
-    &::-webkit-scrollbar {
-      background-color: #494747; /* Scrollbar background color on hover */
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #ffffff3d; /* Scrollbar thumb color on hover */
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #ffffff3d; /* Color when hovering over the thumb */
-    }
-  }
-`;
+export const InstanceListContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
+  overflow: "auto !important",
+  transition: "background-color 0.3s",
+  "&::-webkit-scrollbar": {
+    width: 8,
+    height: 8,
+    backgroundColor: "transparent",
+    transition: "background-color 0.3s",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "transparent",
+    borderRadius: 3,
+    transition: "background-color 0.3s",
+  },
+  "&:hover": {
+    "&::-webkit-scrollbar": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: theme.palette.text.secondary,
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: theme.palette.text.secondary,
+    },
+  },
+}));
 export const InstanceListContainerRowLabelContainer = styled(Box)(
   ({ theme }) => ({
     width: "100%",
@@ -319,7 +310,7 @@ export const InstanceListContainerRow = styled(Box)(({ theme }) => ({
   cursor: "pointer",
   transition: "0.2s background",
   "&:hover": {
-    background: "rgba(67, 68, 72, 1)",
+    background: theme.palette.action.hover,
   },
   flexShrink: 0,
 }));
@@ -363,18 +354,18 @@ export const InstanceListContainerRowGroupIcon = styled("img")({
   userSelect: "none",
   objectFit: "contain",
 });
-export const TypeInAliasTextfield = styled(TextField)({
+export const TypeInAliasTextfield = styled(TextField)(({ theme }) => ({
   width: "340px", // Adjust the width as needed
   borderRadius: "5px",
-  backgroundColor: "rgba(30, 30, 32, 1)",
+  backgroundColor: theme.palette.background.paper,
   border: "none",
   outline: "none",
   input: {
     fontSize: 16,
-    color: "white",
+    color: theme.palette.text.primary,
     "&::placeholder": {
       fontSize: 16,
-      color: "rgba(255, 255, 255, 0.2)",
+      color: theme.palette.text.secondary,
     },
     border: "none",
     outline: "none",
@@ -400,7 +391,7 @@ export const TypeInAliasTextfield = styled(TextField)({
   "& .MuiInput-underline:after": {
     borderBottom: "none",
   },
-});
+}));
 
 export const NewMessageCloseImg = styled("img")({
   width: "auto",
@@ -455,39 +446,40 @@ export const AttachmentContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
-export const NewMessageAttachmentImg = styled("img")({
+export const NewMessageAttachmentImg = styled("img")(({ theme }) => ({
   width: "auto",
   height: "auto",
   userSelect: "none",
   objectFit: "contain",
   cursor: "pointer",
   padding: "10px",
-  border: "1px dashed #646464",
-});
+  border: `1px dashed ${theme.palette.divider}`,
+}));
 
-export const NewMessageSendButton = styled(Box)`
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.9);
-  display: inline-flex;
-  padding: 8px 16px 8px 12px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  transition: all 0.2s;
-  color: black;
-  min-width: 120px;
-  gap: 8px;
-  position: relative;
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(41, 41, 43, 1);
-    color: white;
-    svg path {
-      fill: white; // Fill color changes to white on hover
-    }
-  }
-`;
+export const NewMessageSendButton = styled(Box)(({ theme }) => ({
+  borderRadius: 4,
+  border: `1px solid ${theme.palette.text.primary}`,
+  display: "inline-flex",
+  padding: "8px 16px 8px 12px",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "8px",
+  width: "fit-content",
+  transition: "all 0.2s",
+  color: theme.palette.text.primary,
+  minWidth: "120px",
+  position: "relative",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+    color: theme.palette.text.primary,
+    svg: {
+      path: {
+        fill: theme.palette.text.primary,
+      },
+    },
+  },
+}));
 
 export const NewMessageSendP = styled(Typography)`
   font-family: Roboto;
@@ -526,61 +518,55 @@ export const ShowMessageSubjectP = styled(Typography)`
   text-align: left;
 `;
 
-export const ShowMessageButton = styled(Box)`
-display: inline-flex;
-padding: 8px 16px 8px 16px;
-align-items: center;
-justify-content: center;
-gap: 8px;
-width: fit-content;
-transition: all 0.2s;
-color: white;
-background-color: rgba(41, 41, 43, 1)
-min-width: 120px;
-gap: 8px;
-border-radius: 4px;
-border: 0.5px solid rgba(255, 255, 255, 0.70);
-font-family: Roboto;
+export const ShowMessageButton = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  padding: "8px 16px",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "8px",
+  width: "fit-content",
+  transition: "all 0.2s",
+  color: theme.palette.text.primary,
+  backgroundColor: theme.palette.background.paper,
+  minWidth: "120px",
+  borderRadius: 4,
+  border: `0.5px solid ${theme.palette.divider}`,
+  fontFamily: "Roboto",
+  cursor: "pointer",
+  "&:hover": {
+    borderRadius: 4,
+    border: `0.5px solid ${theme.palette.divider}`,
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+export const ShowMessageReturnButton = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  padding: "8px 16px",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "8px",
+  width: "fit-content",
+  transition: "all 0.2s",
+  color: theme.palette.text.primary,
+  backgroundColor: theme.palette.background.paper,
+  minWidth: "120px",
+  borderRadius: 4,
+  fontFamily: "Roboto",
+  cursor: "pointer",
+  "&:hover": {
+    borderRadius: 4,
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
 
-min-width: 120px;
-cursor: pointer;
-&:hover {
-  border-radius: 4px;
-border: 0.5px solid rgba(255, 255, 255, 0.70);
-background:  #434448;
-}
-`;
-export const ShowMessageReturnButton = styled(Box)`
-display: inline-flex;
-padding: 8px 16px 8px 16px;
-align-items: center;
-justify-content: center;
-gap: 8px;
-width: fit-content;
-transition: all 0.2s;
-color: white;
-background-color: rgba(41, 41, 43, 1)
-min-width: 120px;
-gap: 8px;
-border-radius: 4px;
-font-family: Roboto;
-
-min-width: 120px;
-cursor: pointer;
-&:hover {
-  border-radius: 4px;
-background:  #434448;
-}
-`;
-
-export const ShowMessageButtonP = styled(Typography)`
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%; /* 19.2px */
-  letter-spacing: -0.16px;
-  color: white;
-`;
+export const ShowMessageButtonP = styled(Typography)(({ theme }) => ({
+  fontSize: "16px",
+  fontStyle: "normal",
+  fontWeight: 500,
+  lineHeight: "120%",
+  letterSpacing: "-0.16px",
+  color: theme.palette.text.primary,
+}));
 
 export const ShowMessageButtonImg = styled("img")({
   width: "auto",
@@ -638,50 +624,49 @@ export const ThreadContainer = styled(Box)(({ theme }) => ({
   maxWidth: "95%",
 }));
 
-export const GroupNameP = styled(Typography)`
-  color: #fff;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%; /* 30px */
-  letter-spacing: 0.188px;
-`;
+export const GroupNameP = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontSize: "25px",
+  fontStyle: "normal",
+  fontWeight: 700,
+  lineHeight: "120%",
+  letterSpacing: "0.188px",
+}));
 
-export const AllThreadP = styled(Typography)`
-  color: #FFF;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: 120%; /* 24px */
-letter-spacing: 0.15px;
-`;
+export const AllThreadP = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontSize: "20px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "120%",
+  letterSpacing: "0.15px",
+}));
 
-export const SingleThreadParent = styled(Box)`
-border-radius: 35px 4px 4px 35px;
-position: relative;
-background: #434448;
-display: flex;
-padding: 13px;
-cursor: pointer;
-margin-bottom: 5px;
-height: 76px;
-align-items:center;
-transition: 0.2s all;
-&:hover {
-background: rgba(255, 255, 255, 0.20)
-}
-`;
-export const SingleTheadMessageParent = styled(Box)`
-border-radius: 35px 4px 4px 35px;
-background: #434448;
-display: flex;
-padding: 13px;
-cursor: pointer;
-margin-bottom: 5px;
-height: 76px;
-align-items:center;
-
-`;
+export const SingleThreadParent = styled(Box)(({ theme }) => ({
+  borderRadius: "35px 4px 4px 35px",
+  position: "relative",
+  background: theme.palette.background.paper,
+  display: "flex",
+  padding: "13px",
+  cursor: "pointer",
+  marginBottom: "5px",
+  height: "76px",
+  alignItems: "center",
+  transition: "0.2s all",
+  "&:hover": {
+    background: theme.palette.action.hover,
+  },
+}));
+export const SingleTheadMessageParent = styled(Box)(({ theme }) => ({
+  borderRadius: "35px 4px 4px 35px",
+  background: theme.palette.background.paper,
+  display: "flex",
+  padding: "13px",
+  cursor: "pointer",
+  marginBottom: "5px",
+  height: "76px",
+  alignItems: "center",
+}));
 
 export const ThreadInfoColumn = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -694,61 +679,61 @@ export const ThreadInfoColumn = styled(Box)(({ theme }) => ({
 }));
 
 
-export const ThreadInfoColumnNameP = styled(Typography)`
-color: #FFF;
-font-family: Roboto;
-font-size: 16px;
-font-style: normal;
-font-weight: 900;
-line-height: normal;
-white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
-export const ThreadInfoColumnbyP = styled('span')`
-color: rgba(255, 255, 255, 0.80);
-font-family: Roboto;
-font-size: 16px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-`;
+export const ThreadInfoColumnNameP = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontFamily: "Roboto",
+  fontSize: "16px",
+  fontStyle: "normal",
+  fontWeight: 900,
+  lineHeight: "normal",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
+  overflow: "hidden",
+}));
+export const ThreadInfoColumnbyP = styled("span")(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontFamily: "Roboto",
+  fontSize: "16px",
+  fontStyle: "normal",
+  fontWeight: 500,
+  lineHeight: "normal",
+}));
 
-export const ThreadInfoColumnTime = styled(Typography)`
-color: rgba(255, 255, 255, 0.80);
-font-family: Roboto;
-font-size: 15px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-`
-export const ThreadSingleTitle = styled(Typography)`
-color: #FFF;
-font-family: Roboto;
-font-size: 23px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
-export const ThreadSingleLastMessageP = styled(Typography)`
-color: #FFF;
-font-family: Roboto;
-font-size: 12px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-`
-export const ThreadSingleLastMessageSpanP = styled('span')`
-color: #FFF;
-font-family: Roboto;
-font-size: 12px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-`;
+export const ThreadInfoColumnTime = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontFamily: "Roboto",
+  fontSize: "15px",
+  fontStyle: "normal",
+  fontWeight: 500,
+  lineHeight: "normal",
+}));
+export const ThreadSingleTitle = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontFamily: "Roboto",
+  fontSize: "23px",
+  fontStyle: "normal",
+  fontWeight: 700,
+  lineHeight: "normal",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
+  overflow: "hidden",
+}));
+export const ThreadSingleLastMessageP = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  fontFamily: "Roboto",
+  fontSize: "12px",
+  fontStyle: "normal",
+  fontWeight: 600,
+  lineHeight: "normal",
+}));
+export const ThreadSingleLastMessageSpanP = styled("span")(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  fontFamily: "Roboto",
+  fontSize: "12px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "normal",
+}));
 
 export const GroupContainer = styled(Box)`
 position: relative;

@@ -16,6 +16,7 @@ import {
   Switch,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import Logo1 from "../assets/svgs/Logo1.svg";
 import Logo1Dark from "../assets/svgs/Logo1Dark.svg";
@@ -35,11 +36,12 @@ export const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#232428',
-    color: 'white',
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
     maxWidth: 320,
     padding: '20px',
     fontSize: theme.typography.pxToRem(12),
+    border: `1px solid ${theme.palette.divider}`,
   },
 }));
 function removeTrailingSlash(url: string) {
@@ -61,6 +63,7 @@ export const NotAuthenticated = ({
   useLocalNode, 
   setUseLocalNode
 }) => {
+  const theme = useTheme();
   const [isValidApiKey, setIsValidApiKey] = useState<boolean | null>(null);
   const [hasLocalNode, setHasLocalNode] = useState<boolean | null>(null);
   // const [useLocalNode, setUseLocalNode] = useState(false);
@@ -527,7 +530,7 @@ export const NotAuthenticated = ({
             gap: "10px",
             alignItems: "center",
             flexDirection: "column",
-            outline: '0.5px solid rgba(255, 255, 255, 0.5)',
+            outline: `0.5px solid ${theme.palette.divider}`,
             padding: '20px 30px',
             borderRadius: '5px',
           }}
@@ -556,11 +559,11 @@ export const NotAuthenticated = ({
                   <Switch
                     sx={{
                       "& .MuiSwitch-switchBase.Mui-checked": {
-                        color: "#5EB049",
+                        color: theme.palette.success.main,
                       },
                       "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
                         {
-                          backgroundColor: "white", // Change track color when checked
+                          backgroundColor: theme.palette.success.main,
                         },
                     }}
                     checked={useLocalNode}
@@ -616,7 +619,7 @@ export const NotAuthenticated = ({
           </>
           <Typography
             sx={{
-              color: "white",
+              color: theme.palette.text.primary,
               fontSize: "12px",
             }}
           >
@@ -665,7 +668,7 @@ export const NotAuthenticated = ({
                   >
                     <Typography
                       sx={{
-                        color: "white",
+                        color: theme.palette.text.primary,
                         fontSize: "14px",
                       }}
                     >
@@ -717,7 +720,7 @@ export const NotAuthenticated = ({
                       >
                         <Typography
                           sx={{
-                            color: "white",
+                            color: theme.palette.text.primary,
                             fontSize: "14px",
                           }}
                         >
