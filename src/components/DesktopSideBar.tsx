@@ -1,4 +1,4 @@
-import { Box, ButtonBase, IconButton, useTheme } from '@mui/material';
+import { Box, ButtonBase, IconButton, Tooltip, useTheme } from '@mui/material';
 import React from 'react';
 import { HomeIcon } from '../assets/Icons/HomeIcon';
 import { MessagingIcon } from '../assets/Icons/MessagingIcon';
@@ -145,22 +145,27 @@ export const DesktopSideBar = ({
           paddingBottom: '10px',
         }}
       >
-        <IconButton
-          onClick={toggleTheme}
-          sx={{
-            color: muiTheme.palette.text.primary,
-            backgroundColor: muiTheme.palette.background.default,
-            '&:hover': {
-              backgroundColor: muiTheme.palette.action.hover,
-            },
-          }}
-        >
-          {isDarkMode ? (
-            <LightModeIcon fontSize="small" />
-          ) : (
-            <DarkModeIcon fontSize="small" />
-          )}
-        </IconButton>
+        <Tooltip title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'} placement="right">
+          <span>
+            <IconButton
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              onClick={toggleTheme}
+              sx={{
+                color: muiTheme.palette.text.primary,
+                backgroundColor: muiTheme.palette.background.default,
+                '&:hover': {
+                  backgroundColor: muiTheme.palette.action.hover,
+                },
+              }}
+            >
+              {isDarkMode ? (
+                <LightModeIcon fontSize="small" />
+              ) : (
+                <DarkModeIcon fontSize="small" />
+              )}
+            </IconButton>
+          </span>
+        </Tooltip>
       </Box>
     </Box>
   );

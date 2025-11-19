@@ -32,6 +32,8 @@ export interface ThemeDefinition {
   dark: ThemeColors;
 }
 
+export type ThemeDefinitionInput = Omit<ThemeDefinition, "id"> & { id?: string };
+
 const MODE_SPECIFIC_VARS: Record<ThemeMode, Record<string, string>> = {
   light: {
     "--Mail-Background": "rgba(49, 51, 56, 1)",

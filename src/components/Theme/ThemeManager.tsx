@@ -29,24 +29,25 @@ import { useThemeContext } from "../../context/ThemeContext";
 import {
   ThemeColors,
   ThemeDefinition,
+  ThemeDefinitionInput,
   ThemeMode,
   THEME_COLOR_FIELDS,
   cloneThemeColors,
   defaultThemeDefinition,
 } from "../../theme/themes";
 import { saveFileToDiskGeneric } from "../../utils/generateWallet/generateWallet";
+import {
+  normalizeThemeImport,
+  serializeThemeDefinition,
+  ThemeValidationError,
+} from "../../theme/themeSchema";
 
 interface ThemeManagerDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-type ThemeDraft = {
-  id?: string;
-  name: string;
-  light: ThemeColors;
-  dark: ThemeColors;
-};
+type ThemeDraft = ThemeDefinitionInput;
 
 type FeedbackState = {
   type: "success" | "error";
@@ -108,19 +109,6 @@ const readThemeFile = async () => {
   });
 };
 
-const validateThemePayload = (payload: any): payload is ThemeDraft => {
-  if (!payload || typeof payload !== "object") return false;
-  if (typeof payload.name !== "string") return false;
-  if (typeof payload.light !== "object" || typeof payload.dark !== "object") {
-    return false;
-  }
-  return THEME_COLOR_FIELDS.every(({ key }) => {
-    const lightValue = payload.light?.[key];
-    const darkValue = payload.dark?.[key];
-    return typeof lightValue === "string" && typeof darkValue === "string";
-  });
-};
-
 const ThemeManagerDialog = ({ open, onClose }: ThemeManagerDialogProps) => {
   const { themes, currentThemeId, selectTheme, deleteTheme, saveTheme } =
     useThemeContext();
@@ -162,21 +150,25 @@ const ThemeManagerDialog = ({ open, onClose }: ThemeManagerDialogProps) => {
     try {
       const fileContent = await readThemeFile();
       const parsed = JSON.parse(fileContent);
-      if (!validateThemePayload(parsed)) {
-        throw new Error("INVALID_THEME_FILE");
-      }
-      saveTheme({
-        id: typeof parsed.id === "string" ? parsed.id : undefined,
-        name: parsed.name,
-        light: parsed.light,
-        dark: parsed.dark,
-      });
-      setFeedback({ type: "success", message: `${parsed.name} imported.` });
+      const normalized = normalizeThemeImport(parsed);
+      saveTheme(normalized);
+      setFeedback({ type: "success", message: `${normalized.name} imported.` });
     } catch (error: any) {
       if (error?.message === "FILE_SELECTION_CANCELLED") {
         return;
       }
-      setFeedback({ type: "error", message: "Unable to import that file." });
+      if (error instanceof SyntaxError) {
+        setFeedback({ type: "error", message: "That file is not valid JSON." });
+        return;
+      }
+      if (error instanceof ThemeValidationError) {
+        setFeedback({ type: "error", message: error.message });
+        return;
+      }
+      setFeedback({
+        type: "error",
+        message: "Unable to import that file.",
+      });
     }
   };
 
@@ -187,7 +179,8 @@ const ThemeManagerDialog = ({ open, onClose }: ThemeManagerDialogProps) => {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "")
         .concat("-theme.json");
-      const blob = new Blob([JSON.stringify(theme, null, 2)], {
+      const canonicalTheme = serializeThemeDefinition(theme);
+      const blob = new Blob([JSON.stringify(canonicalTheme, null, 2)], {
         type: "application/json",
       });
       await saveFileToDiskGeneric(blob, filename);

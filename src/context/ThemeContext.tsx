@@ -12,13 +12,12 @@ import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/st
 import {
   AppTheme,
   ThemeDefinition,
+  ThemeDefinitionInput,
   ThemeMode,
   createThemeFromDefinition,
   defaultThemeDefinition,
   normalizeThemeColors,
 } from "../theme/themes";
-
-type ThemeDefinitionInput = Omit<ThemeDefinition, "id"> & { id?: string };
 
 type ThemeContextValue = {
   theme: AppTheme;
